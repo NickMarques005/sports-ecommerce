@@ -1,0 +1,149 @@
+.newsLetter_mainDiv{
+    width: 100%;
+    min-height: 420px;
+    background: linear-gradient(#6942f5, #3c1ba0);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-inline: 25px;
+    box-sizing: border-box;
+}
+
+.newsLetter_cardInfo{
+    width: 700px;
+    height: 100%;
+    background-color: white;
+    border-radius: 30px 30px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 35px;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+.newsLetter_title{
+    width: 80%;
+}
+
+.newsLetter_title h2{
+    color:#28097e;
+}
+
+.newsLetter_info{
+    width: 80%;
+    margin-block: 15px;
+}
+
+.newsLetter_info p{
+    color: #241353;
+}
+
+.newsLetter_inputs{
+    width: 80%;
+    height: 100px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    box-sizing: border-box;
+    
+}
+
+.newsLetter_inputs input{
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border-width: 0.5px;
+    font-size: 15px;
+    color: #3c1ba0;
+    border: none;
+    border-bottom: solid #6e57ab;
+    border-bottom-width: 2px;
+    outline: none; 
+    box-shadow: 0px 6px 10px rgba(102, 67, 166, 0.2);
+    
+}
+
+.newsLetter_inputs input::placeholder{
+    color:#322261;
+}
+
+.newsLetter_subscribeDiv{
+    margin-top: 45px;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.newsLetter_subscribeButton{
+    width: 100%;
+    background-color: #260e6e;
+    padding-block: 15px;
+    font-size: 18px;
+    color: white;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: ease 0.5s;
+    box-shadow: 0px 6px 6px rgba(102, 67, 166, 0.2);
+    border-width: 0px;
+}
+
+.newsLetter_subscribeButton:hover{
+    background-color: #150640;
+}
+
+@media (max-width: 800px)
+{
+    .newsLetter_mainDiv{
+        width: 100%;
+        margin-right: 0px;
+        border-radius: 0px;
+        margin-top: 30px;
+        justify-content: center;
+    }
+
+    .newsLetter_cardInfo{
+        width: 90%;
+        background-color: transparent;
+        margin-right: 0px;
+        box-shadow: none;
+    }
+
+    .newsLetter_title{
+        width: 90%;
+    }
+
+    .newsLetter_title h2{
+        color:#dbd1f9;
+    }
+
+    .newsLetter_info{
+        width: 90%;
+        margin-block: 15px;
+    }
+
+    .newsLetter_info p{
+        color: #d6cbf4;
+    }
+
+    .newsLetter_inputs{
+        width: 90%;
+        margin-top: 15px;
+    }
+
+    .newsLetter_inputs input{
+        border-bottom-width: 0px;
+        box-shadow: none;
+    }
+
+    .newsLetter_subscribeDiv{
+        width: 90%;
+    }
+
+    .newsLetter_subscribeButton{
+        padding-block: 20px;
+    }
+}

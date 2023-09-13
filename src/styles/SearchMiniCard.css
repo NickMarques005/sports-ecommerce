@@ -1,0 +1,68 @@
+
+.searchitem{
+    background-color: white;
+    margin-inline: 5px;
+    padding-block: 10px;
+    
+}
+
+.link_searchitem{
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.searchproduct_img{
+    display: block;
+    position: relative;
+}
+
+.searchproduct_img img{
+    max-width: 100%;
+}
+
+.searchproduct_content{
+    
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.searchproduct_content .searchproduct_name_div{
+    width: 100%;
+    height: 62px;
+    
+}
+
+.searchproduct_name_div .searchproduct_name{
+    width: 100px;
+    height: 100%;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.searchproduct_prices_div{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchitem_initial_price{
+    font-size: 13px;
+    opacity: 50%;
+    text-decoration: line-through
+}
+
+.searchitem_new_price{
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+@media (max-width: 700px)
+{
+}

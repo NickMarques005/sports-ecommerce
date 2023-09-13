@@ -1,0 +1,14 @@
+.loading_mainDiv{
+    width: 100%;
+    padding-block: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading_mainDiv p{
+    font-size: 20px;
+    color: #6643f0;
+}
