@@ -112,7 +112,7 @@ function MainPage() {
                             </div>
                             <div className="carousel_div">
                                 <Carousel className="carousel_products" responsive={responsive_main_screen}>
-                                    {mainProductData !== []
+                                    {mainProductData.length > 0
                                         ?
                                         handleFilterData("ofertas")
                                         : ""
@@ -128,7 +128,7 @@ function MainPage() {
                             </div>
                             <div className="carousel_div">
                                 <Carousel className="carousel_products" responsive={responsive_main_screen}>
-                                    {mainProductData !== []
+                                    {mainProductData.length > 0
                                         ?
                                         handleFilterData("lancamentos")
                                         : ""
@@ -151,7 +151,7 @@ function MainPage() {
                             </div>
                             <div className="carousel_div">
                                 <Carousel className="carousel_products" responsive={responsive_main_screen}>
-                                    {mainProductData !== []
+                                    {mainProductData.length > 0
                                         ?
                                         handleFilterData("estilo")
                                         : ""
@@ -167,7 +167,7 @@ function MainPage() {
                             </div>
                             <div className="carousel_div">
                                 <Carousel className="carousel_products" responsive={responsive_main_screen}>
-                                    {mainProductData !== []
+                                    {mainProductData.length > 0
                                         ?
                                         handleFilterData("treino")
                                         : ""
