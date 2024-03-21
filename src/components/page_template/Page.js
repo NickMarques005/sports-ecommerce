@@ -174,7 +174,7 @@ function Page(props) {
                 })
 
                 : (
-                  <div>
+                  <div className="no_product_div">
                     <h2>Nenhum dado encontrado</h2>
                   </div>
                 )

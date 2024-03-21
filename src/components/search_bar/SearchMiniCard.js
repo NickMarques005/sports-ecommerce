@@ -32,4 +32,4 @@ function SearchMiniCard(props) {
   )
 }
 
-export default SearchMiniCard
+export default SearchMiniCard;

@@ -14,6 +14,10 @@ import { useCart } from '../../contexts/CartContext';
 import CartModal from './CartModal';
 import CartPageFunc from '../component_functions/handleCheckoutPageFunc';
 import { URL } from '../../App';
+import { useDevice } from '../../contexts/DeviceContext';
+import SearchBar from '../search_bar/SearchBar';
+import SearchResults from '../search_bar/SearchResults';
+import MobileSearch from '../search_bar/MobileSearch';
 
 
 export default function Navbar() {
@@ -93,6 +97,8 @@ export default function Navbar() {
       option_function: handleLogout
     },
   ]
+
+  const { isMobile } = useDevice();
 
   const [search, setSearch] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -267,6 +273,17 @@ export default function Navbar() {
     }
   }
 
+  const handleSuggestionClick = (result) => {
+    setSearch(result.suggestion.toLowerCase());
+  }
+
+  //Funcionalidade: tratar as mudanças no input de procura
+  const handleChangeSearchInput = (event) => {
+    setInputWorking(true);
+    setSearch(event.target.value);
+    console.log("SEARCH: ", search);
+  }
+
   //Funcionalidade: tratar a disponibilidade das opções da conta de acordo com a autenticação
   const handleDropDownMenu_OptionsFunctions = (option, function_option) => {
 
@@ -279,6 +296,10 @@ export default function Navbar() {
         function_option ? function_option() : console.log("OPÇÃO NAO POSSUI FUNÇÃO");
       }
     }
+  }
+
+  const handleMobileSearch = () => {
+    console.log("Mobile Search");
   }
 
   const handleMenuMobile_Options = () => {
@@ -311,7 +332,14 @@ export default function Navbar() {
   return (
     <div className="aux_navBarMainOptions_div">
       <div className="navBarMainOptions_div">
-        <Menu menuOn={menuOpen} checkoutCart={checkout} onClose={interactMenu} userData={userData ? userData : ""} isLogged={isLogged} handleLogout={handleLogout} />
+        {
+          isMobile ?
+            <>
+              <MobileSearch search={search} resultsData={resultsData} suggestionsData={suggestionsData} handleChangeSearchInput={handleChangeSearchInput} handleSearchKeyPress={handleSearchKeyPress} handleSuggestionClick={handleSuggestionClick} inputWorking={inputWorking} />
+              <Menu menuOn={menuOpen} checkoutCart={checkout} onClose={interactMenu} userData={userData ? userData : ""} isLogged={isLogged} handleLogout={handleLogout} />
+            </>
+            : ""
+        }
         <nav className="navBar_main">
           <div className="containerNav_main">
             <div className="menu_logo">
@@ -330,67 +358,14 @@ export default function Navbar() {
                 <>
                   <div className="search_payment">
                     <div className="search_section">
-                      <div className={`input_section ${resultsData.length == 0 ? "" : "activeshadow"}`}>
-                        <input
-                          className="input_search"
-                          maxLength="32"
-                          type="text"
-                          placeholder="Buscar"
-                          value={search}
-                          onChange={(e) => {
-                            setInputWorking(true);
-                            setSearch(e.target.value);
-                            console.log("SEARCH: ", search);
-                          }}
-                          onKeyDown={handleSearchKeyPress}
-                        />
-                        <button className="search button">
-                          <IoSearch className="icon_scale icon_search" />
-                        </button>
-                      </div>
-                      <div className={`search_results_div ${resultsData.length == 0 && !inputWorking ? "off" : ""}`}>
-                        <div className="suggestions_div">
-                          <div className="suggestions_title_div">
-                            <span>Sugestões</span>
-                          </div>
-                          <ul>
-                            {
-                              suggestionsData.length !== 0 ?
-                                suggestionsData.map((results) => {
-                                  console.log("data suggestion: ", results.suggestion);
-                                  return (
-                                    <li>
-                                      <label onClick={() => { setSearch(results.suggestion.toLowerCase()) }}>{results.suggestion.toLowerCase()}</label>
-                                    </li>
-                                  )
-                                })
+                      <SearchBar resultsData={resultsData} search={search} handleChangeSearchInput={handleChangeSearchInput} handleMobileSearch={handleMobileSearch} isMobile={isMobile} />
 
-                                : ""
-
-                            }
-                          </ul>
-                        </div>
-                        <div className="searchProducts_div">
-                          <div className="searchProducts_title_div">
-                            <span>Produtos</span>
-                          </div>
-                          <ul>
-                            {
-                              resultsData.length !== 0 ?
-                                resultsData.map((results) => {
-                                  console.log("data result: ", results);
-                                  return (
-                                    <li key={results._id}>
-                                      <SearchMiniCard searchProductId={results._id} searchProductType={results.type} searchProductName={results.name} searchProductInitPrice={results.initial_price} />
-                                    </li>
-                                  )
-                                })
-                                : ""
-                            }
-
-                          </ul>
-                        </div>
-                      </div>
+                      {
+                        isMobile ?
+                          ""
+                          :
+                          <SearchResults resultsData={resultsData} handleSuggestionClick={handleSuggestionClick} suggestionsData={suggestionsData} inputWorking={inputWorking} />
+                      }
                     </div>
                     <button className="wishlist button">
                       <IoHeart className="icon_scale icon_general" />
@@ -457,7 +432,7 @@ export default function Navbar() {
         </nav>
 
         {
-          !checkout ?
+          !checkout && !isMobile ?
             <div className={`menu_Options ${optionsOn ? "" : "off"}`}>
               <ul>
                 <li><a href='/novidades'>Novidades</a></li>

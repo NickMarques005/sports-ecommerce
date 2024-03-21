@@ -8,6 +8,7 @@ import handleCheckoutPageFunc from '../component_functions/handleCheckoutPageFun
 import "react-multi-carousel/lib/styles.css";
 import MobileCart from './MobileCart';
 import DesktopCart from './DesktopCart';
+import { useDevice } from '../../contexts/DeviceContext';
 
 function Cart(props) {
 
@@ -18,17 +19,17 @@ function Cart(props) {
   let cartData = useCart();
   let dispatch = useDispatchCart();
 
+  const { isMobile } = useDevice();
+
   let navigate = useNavigate();
   let currentRoute = window.location.pathname;
-
-  const [isMobile, setIsMobile] = useState(false);
 
   const [groupedData, setGroupedData] = useState([]);
   const [totalPrice, setTotalPrice] = useState(null);
   const [totalCondition, setTotalCondition] = useState(null);
   const [totalConditionPrice, setTotalConditionPrice] = useState(null);
 
-  
+
   /*****************/
   /*   FUNCTIONS
   /*****************/
@@ -167,14 +168,11 @@ function Cart(props) {
         console.log("TEM ITEM")
 
       }
-      else {
-        console.log("NO TEM ITEM")
-      }
-    }
-    else {
-      navigate("/login");
+
+      return;
     }
 
+    navigate("/login");
   }
 
   /*****************/
@@ -184,28 +182,6 @@ function Cart(props) {
   useEffect(() => {
     calculateTotalValues();
   }, [groupedData]);
-
-
-  useEffect(() => {
-
-    const handleResize = () => {
-      if (window.innerWidth <= 950) {
-        setIsMobile(true);
-      }
-      else {
-        setIsMobile(false);
-      }
-    }
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    }
-
-  }, []);
 
 
   useEffect(() => {
@@ -226,24 +202,24 @@ function Cart(props) {
         <div className="checkout_info_div">
           <div className="checkout_cart_div">
 
-            
-              {
-                isMobile ?
 
-                  <MobileCart groupedData={groupedData}
-                    handleDecrement={handleDecrement}
-                    handleIncrement={handleIncrement}
-                    handleDeleteItems={handleDeleteItems}
-                    group_data = {props.group_data} />
-                    
-                  :
+            {
+              isMobile ?
 
-                  <DesktopCart groupedData={groupedData}
-                    handleDecrement={handleDecrement}
-                    handleIncrement={handleIncrement}
-                    handleDeleteItems={handleDeleteItems}
-                    group_data = {props.group_data} />
-              }
+                <MobileCart groupedData={groupedData}
+                  handleDecrement={handleDecrement}
+                  handleIncrement={handleIncrement}
+                  handleDeleteItems={handleDeleteItems}
+                  group_data={props.group_data} />
+
+                :
+
+                <DesktopCart groupedData={groupedData}
+                  handleDecrement={handleDecrement}
+                  handleIncrement={handleIncrement}
+                  handleDeleteItems={handleDeleteItems}
+                  group_data={props.group_data} />
+            }
 
             <div className="checkout_cartSubPrice_div">
               <span>Subtotal:</span>
@@ -302,9 +278,9 @@ function Cart(props) {
             <div className="checkout_deadline_info">
               <div className="checkout_deadline_input">
                 <input
-                  type="text"
+                  type="number"
                   placeholder="00000-000"
-                  maxLength="8"
+                  maxLength={8}
                 />
                 <button>Calcular</button>
               </div>

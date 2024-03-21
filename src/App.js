@@ -14,34 +14,37 @@ import Route_Compra from './screens/secondary_route_screens/Route_Compra';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext';
 import { LoadingProvider } from './contexts/LoadingContext';
+import { DeviceProvider } from './contexts/DeviceContext';
 
 export const URL = process.env.REACT_APP_SERVER_URL;
 
 function App() {
 
   return (
-    <LoadingProvider>
-      <CartProvider>
-        <Router>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/novidades' element={<Route_Novidades />} />
-            <Route path='/calcados' element={<Route_Calcados />} />
-            <Route path='/roupas' element={<Route_Roupas />} />
-            <Route path='/acessorios' element={<Route_Acessorios />} />
-            <Route path='/equipamentos' element={<Route_Equipamentos />} />
-            <Route path='/busca' element={<Route_Busca />} />
-            <Route path='/:id' element={<Route_Product />} />
-            <Route path='/compra' element={<Navigate to="/compra/carrinho" />} />
-            <Route path="/compra/carrinho" element={<Route_Compra />} />
-            <Route path="/compra/identificação" element={<Route_Compra />} />
-            <Route path="/compra/pagamento" element={<Route_Compra />} />
-          </Routes>
-        </Router>
-      </CartProvider>
-    </LoadingProvider>
+    <DeviceProvider>
+      <LoadingProvider>
+        <CartProvider>
+          <Router>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='/novidades' element={<Route_Novidades />} />
+              <Route path='/calcados' element={<Route_Calcados />} />
+              <Route path='/roupas' element={<Route_Roupas />} />
+              <Route path='/acessorios' element={<Route_Acessorios />} />
+              <Route path='/equipamentos' element={<Route_Equipamentos />} />
+              <Route path='/busca' element={<Route_Busca />} />
+              <Route path='/:id' element={<Route_Product />} />
+              <Route path='/compra' element={<Navigate to="/compra/carrinho" />} />
+              <Route path="/compra/carrinho" element={<Route_Compra />} />
+              <Route path="/compra/identificação" element={<Route_Compra />} />
+              <Route path="/compra/pagamento" element={<Route_Compra />} />
+            </Routes>
+          </Router>
+        </CartProvider>
+      </LoadingProvider>
+    </DeviceProvider>
   )
 }
 

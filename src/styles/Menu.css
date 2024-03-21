@@ -199,7 +199,8 @@ label{
         z-index: 11;
         display: flex;
         flex-direction: column;
-        width: 25rem;
+        width: 80%;
+        max-width: 23rem;
         justify-content: flex-start;
         gap: 10px;
         align-items: center;
@@ -215,7 +216,11 @@ label{
         transform: translateX(-30px);
     }
 
-
+    @media (max-width: 380px){
+        .menu_screen{
+            width: 100%; 
+        }
+    }
 }
 
 
