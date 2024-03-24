@@ -8,7 +8,8 @@ const MobileSearch = ({
     resultsData,
     suggestionsData,
     handleSuggestionClick,
-    inputWorking                
+    inputWorking,
+    isSearching               
 }) => {
     return (
         <div className="mobile_search_div" >
@@ -22,6 +23,7 @@ const MobileSearch = ({
                 onKeyDown={handleSearchKeyPress}
             />
             <SearchResults
+                isSearching={isSearching}
                 search={search}
                 resultsData={resultsData}
                 suggestionsData={suggestionsData}

@@ -100,6 +100,7 @@ export default function Navbar() {
   const [openSearchMobile, setOpenSearchMobile] = useState(false);
 
   const [search, setSearch] = useState('');
+  const [isSearching, setIsSearching]= useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [resultsData, setResultsData] = useState([]);
@@ -132,6 +133,8 @@ export default function Navbar() {
   /*  USE EFFECTS 
   /*****************/
 
+
+  //COLOCAR EM UM CONTEXT
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (authToken) {
@@ -220,15 +223,17 @@ export default function Navbar() {
 
   const handleChangeSearch = (input_data) => {
     setInputChange(input_data);
+    setIsSearching(true);
     SearchFunction(input_data)
       .then((results) => {
         const resultsArray = Object.values(results);
         setResultsData(resultsArray[0]);
         setSuggestionsData(resultsArray[1]);
-        //console.log("DATA 1: ", resultsArray[0]);
+        setIsSearching(false);
       })
       .catch((err) => {
         console.log("Error: ", err);
+        setIsSearching(false);
       });
   }
 
@@ -328,7 +333,7 @@ export default function Navbar() {
 
               {
                 openSearchMobile ?
-                <MobileSearch search={search} resultsData={resultsData} suggestionsData={suggestionsData} handleChangeSearchInput={handleChangeSearchInput} handleSearchKeyPress={handleSearchKeyPress} handleSuggestionClick={handleSuggestionClick} inputWorking={inputWorking} />
+                <MobileSearch isSearching={isSearching} search={search} resultsData={resultsData} suggestionsData={suggestionsData} handleChangeSearchInput={handleChangeSearchInput} handleSearchKeyPress={handleSearchKeyPress} handleSuggestionClick={handleSuggestionClick} inputWorking={inputWorking} />
                 : ""
               }
               <Menu menuOn={menuOpen} checkoutCart={checkout} onClose={interactMenu} userData={userData ? userData : ""} isLogged={isLogged} handleLogout={handleLogout} />
@@ -359,7 +364,7 @@ export default function Navbar() {
                         isMobile ?
                           ""
                           :
-                          <SearchResults search={search} resultsData={resultsData} handleSuggestionClick={handleSuggestionClick} suggestionsData={suggestionsData} inputWorking={inputWorking} />
+                          <SearchResults isSearching={isSearching} search={search} resultsData={resultsData} handleSuggestionClick={handleSuggestionClick} suggestionsData={suggestionsData} inputWorking={inputWorking} />
                       }
                     </div>
                     <button className="wishlist button">
