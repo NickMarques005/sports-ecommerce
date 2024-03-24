@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/Navbar.css';
 import Menu from './Menu';
-import { IoCart, IoMenuOutline, IoSearch, IoHeart } from 'react-icons/io5';
+import { IoCart, IoMenuOutline, IoHeart } from 'react-icons/io5';
 import Sports_Logo from '../../imgs/Sports.png';
 import Account_Img from '../../imgs/user.png';
 import { SearchFunction } from '../component_functions/SearchFunction';
 import DropDownItem from '../dropdown_menu/DropDownItem';
 import option_Images from '../../imgs/ImportOptionsImgs';
-import SearchMiniCard from '../search_bar/SearchMiniCard';
 import { useSearch } from '../../contexts/SearchContext';
 import { useCart } from '../../contexts/CartContext';
 import CartModal from './CartModal';
@@ -23,7 +22,6 @@ import MobileSearch from '../search_bar/MobileSearch';
 export default function Navbar() {
 
   //Variables and Hooks
-  const location = useLocation();
   let currentRoute = window.location.pathname;
   let navigate = useNavigate();
 
@@ -99,6 +97,7 @@ export default function Navbar() {
   ]
 
   const { isMobile } = useDevice();
+  const [openSearchMobile, setOpenSearchMobile] = useState(false);
 
   const [search, setSearch] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -247,7 +246,7 @@ export default function Navbar() {
 
 
   useEffect(() => {
-    if (currentRoute == "/compra/pagamento" || currentRoute == "/compra/identifica%C3%A7%C3%A3o") {
+    if (currentRoute === "/compra/pagamento" || currentRoute === "/compra/identifica%C3%A7%C3%A3o") {
       setCheckout(true);
     }
     else {
@@ -288,7 +287,7 @@ export default function Navbar() {
   const handleDropDownMenu_OptionsFunctions = (option, function_option) => {
 
     if (localStorage.getItem("authToken")) {
-      if (option.id == 2 || option.id == 3 || option.id == 4) {
+      if (option.id === 2 || option.id === 3 || option.id === 4) {
         console.log("SEM FUNÇÃO!");
         return;
       }
@@ -300,16 +299,7 @@ export default function Navbar() {
 
   const handleMobileSearch = () => {
     console.log("Mobile Search");
-  }
-
-  const handleMenuMobile_Options = () => {
-
-    if (localStorage.getItem("authToken")) {
-
-    }
-    else {
-
-    }
+    setOpenSearchMobile(!openSearchMobile);
   }
 
   const handleMouseEnter = () => {
@@ -335,7 +325,12 @@ export default function Navbar() {
         {
           isMobile ?
             <>
-              <MobileSearch search={search} resultsData={resultsData} suggestionsData={suggestionsData} handleChangeSearchInput={handleChangeSearchInput} handleSearchKeyPress={handleSearchKeyPress} handleSuggestionClick={handleSuggestionClick} inputWorking={inputWorking} />
+
+              {
+                openSearchMobile ?
+                <MobileSearch search={search} resultsData={resultsData} suggestionsData={suggestionsData} handleChangeSearchInput={handleChangeSearchInput} handleSearchKeyPress={handleSearchKeyPress} handleSuggestionClick={handleSuggestionClick} inputWorking={inputWorking} />
+                : ""
+              }
               <Menu menuOn={menuOpen} checkoutCart={checkout} onClose={interactMenu} userData={userData ? userData : ""} isLogged={isLogged} handleLogout={handleLogout} />
             </>
             : ""
@@ -354,25 +349,25 @@ export default function Navbar() {
             </div>
 
             {
-              checkout == false ?
+              checkout === false ?
                 <>
                   <div className="search_payment">
                     <div className="search_section">
-                      <SearchBar resultsData={resultsData} search={search} handleChangeSearchInput={handleChangeSearchInput} handleMobileSearch={handleMobileSearch} isMobile={isMobile} />
+                      <SearchBar resultsData={resultsData} search={search} handleSearchKeyPress={handleSearchKeyPress} handleChangeSearchInput={handleChangeSearchInput} handleMobileSearch={handleMobileSearch} isMobile={isMobile} />
 
                       {
                         isMobile ?
                           ""
                           :
-                          <SearchResults resultsData={resultsData} handleSuggestionClick={handleSuggestionClick} suggestionsData={suggestionsData} inputWorking={inputWorking} />
+                          <SearchResults search={search} resultsData={resultsData} handleSuggestionClick={handleSuggestionClick} suggestionsData={suggestionsData} inputWorking={inputWorking} />
                       }
                     </div>
                     <button className="wishlist button">
                       <IoHeart className="icon_scale icon_general" />
                     </button>
-                    <button className={`payment ${currentRoute == "/compra/carrinho" ? "off" : ""} button `} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => CartPageFunc(navigate)}>
+                    <button className={`payment ${currentRoute === "/compra/carrinho" ? "off" : ""} button `} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => CartPageFunc(navigate)}>
                       <IoCart className="icon_scale icon_general" />
-                      {cartItems.length != 0 ?
+                      {cartItems.length !== 0 ?
                         <div className="cart_length_div">
                           <span>{cartItems.length}</span>
                         </div> : ""}
@@ -380,7 +375,7 @@ export default function Navbar() {
                     {<CartModal cart_view={cartView} mouseEvents={handleCartModalMouseEvents} />}
                   </div>
                   <div className="login_section">
-                    <img src={Account_Img} className="account_img" ref={imgAccountRef} />
+                    <img src={Account_Img} className="account_img" ref={imgAccountRef} alt={"account-img"} />
                   </div>
                   <div className={`dropdown_login ${dropdownMenuOpen && !cartView && !checkout ? 'on' : 'off'}`} ref={dropdownMenuRef}>
 
@@ -406,16 +401,16 @@ export default function Navbar() {
 
                     <ul>
                       {account_options.map((option, index) => (
-                        isLogged && option.id == 0 ? ""
+                        isLogged && option.id === 0 ? ""
                           :
-                          isLogged && option.id == 5 ? <hr key={option.id} />
+                          isLogged && option.id === 5 ? <hr key={option.id} />
                             :
-                            !isLogged && option.id == 5 ? ""
+                            !isLogged && option.id === 5 ? ""
                               :
-                              !isLogged && option.id == 1 || !isLogged && option.id == 6 ? ""
+                              !isLogged && option.id === 1 || !isLogged && option.id === 6 ? ""
                                 : (
                                   <li key={isLogged ? option.id : index}>
-                                    <DropDownItem link={!localStorage.getItem("authToken") && option.id == 2 ? option.option_linkNoAuth : option.option_link} img={option.option_img} text={option.option_name} altImg={option.option_altImg} pointer={option.option_pointer} option_func={option.option_function ? option.option_function : null} handle_function={handleDropDownMenu_OptionsFunctions} />
+                                    <DropDownItem link={!localStorage.getItem("authToken") && option.id === 2 ? option.option_linkNoAuth : option.option_link} img={option.option_img} text={option.option_name} altImg={option.option_altImg} pointer={option.option_pointer} option_func={option.option_function ? option.option_function : null} handle_function={handleDropDownMenu_OptionsFunctions} />
                                   </li>
                                 )
                       )

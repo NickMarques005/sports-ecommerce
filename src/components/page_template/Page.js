@@ -4,12 +4,13 @@ import { useSearch } from '../../contexts/SearchContext';
 import '../../styles/Page.css';
 import icon_sort from '../../imgs/icon_sort.png';
 import icon_filter from '../../imgs/icon_filter.png';
+import img_banner from '../../imgs/banner_img.jpg';
 import grid_2 from '../../imgs/grid_2.png';
 import grid_3 from '../../imgs/grid_3.png';
 import grid_4 from '../../imgs/grid_4.png';
 import Card from './Card';
 import ProductsData from '../component_functions/ProductsData';
-import { LoadingProvider, useLoading } from '../../contexts/LoadingContext';
+import { useLoading } from '../../contexts/LoadingContext';
 import LoadingScreen from '../loading/LoadingScreen';
 
 function Page(props) {
@@ -117,14 +118,15 @@ function Page(props) {
   return (
 
     <div className="products_section">
-
       <div className="pitchbar_products">
         <div className="swiper_wrapper">
-          <div className=""></div>
-          <div className=""></div>
-          <div className=""></div>
-          <div className=""></div>
-          <div className=""></div>
+          <div className="banner_img_div">
+            <img src={img_banner} alt="banner_img" />
+          </div>
+          <div className="img_attribution_div">
+
+          </div>
+          
         </div>
       </div>
 
@@ -160,28 +162,32 @@ function Page(props) {
       <div className="card_container">
         {
           !loading ?
-          <div className="cards_products_grid">
+            <div className="cards_products_grid">
 
-          <ul id="grid_ul" className={`cardGrid_ul grid_${selectedGrid}`}>
-            {
-              productsData.length !== 0
-                ? productsData.map((items) => {
-                  return (
-                    <li key={items._id}>
-                      <Card productId={items._id} productName={items.name} productRating={items.rating} productDesc={items.description} productInitPrice={items.initial_price} productType={items.type} />
-                    </li>
+
+              {
+                productsData.length !== 0
+                  ?
+                  <ul id="grid_ul" className={`cardGrid_ul grid_${selectedGrid}`}>
+                    {
+                      productsData.map((items) => {
+                        return (
+                          <li key={items._id}>
+                            <Card productId={items._id} productName={items.name} productRating={items.rating} productDesc={items.description} productInitPrice={items.initial_price} productType={items.type} />
+                          </li>
+                        )
+                      })
+                    }
+                  </ul>
+                  : (
+                    <div className="no_product_div">
+                      <h2>Ops! Parece que não há produto relacionado à sua busca.</h2>
+                    </div>
                   )
-                })
+              }
 
-                : (
-                  <div className="no_product_div">
-                    <h2>Nenhum dado encontrado</h2>
-                  </div>
-                )
-            }
-          </ul>
-        </div>
-        : <LoadingScreen />
+            </div>
+            : <LoadingScreen />
         }
 
       </div>

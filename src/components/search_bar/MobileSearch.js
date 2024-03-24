@@ -22,6 +22,7 @@ const MobileSearch = ({
                 onKeyDown={handleSearchKeyPress}
             />
             <SearchResults
+                search={search}
                 resultsData={resultsData}
                 suggestionsData={suggestionsData}
                 handleSuggestionClick={handleSuggestionClick}

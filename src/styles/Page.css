@@ -24,6 +24,36 @@
     margin-top: 30px;
 }
 
+.pitchbar_products .img_attribution_div {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 10px;
+    padding: 10px;
+    color: white;
+    
+}
+
+.swiper_wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.banner_img_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.banner_img_div img {
+    height: 100%;
+}
+
+.img_attribution_div a{
+    color: rgb(199, 199, 244);
+}
+
 .h1_product{
     height: 4rem;
     display: flex;
@@ -170,6 +200,22 @@
 .cards_products_grid li:not(:hover)
 {
     transition: 0.4s;
+}
+
+.no_product_div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
+}
+
+h2{
+    color: rgb(88, 56, 169);
+}
+
+.no_product_div h2{
+    font-size: 20px;
 }
 
 @media (max-width: 802px)

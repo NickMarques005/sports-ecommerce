@@ -148,8 +148,9 @@ function Footer() {
 
       <div className="footer_store_rights">
         <p className="footer_rights_p">
-          © 2023 Sports Store. Todos os direitos reservados. 
+          © 2024 Sports Store. Todos os direitos reservados. 
         </p>
+        
       </div>
     </div>
 
