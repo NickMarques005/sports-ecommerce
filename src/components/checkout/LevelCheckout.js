@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import "../../styles/Checkout.css";
 import { useCart } from '../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
-import handleCheckoutPageFunc from '../component_functions/handleCheckoutPageFunc';
+import handleCheckoutPageFunc from '../../utils/CheckoutHandling';
 
 
 function LevelCheckout(props) {

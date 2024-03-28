@@ -5,18 +5,18 @@ import Menu from './Menu';
 import { IoCart, IoMenuOutline, IoHeart } from 'react-icons/io5';
 import Sports_Logo from '../../imgs/Sports.png';
 import Account_Img from '../../imgs/user.png';
-import { SearchFunction } from '../component_functions/SearchFunction';
 import DropDownItem from '../dropdown_menu/DropDownItem';
 import option_Images from '../../imgs/ImportOptionsImgs';
 import { useSearch } from '../../contexts/SearchContext';
 import { useCart } from '../../contexts/CartContext';
 import CartModal from './CartModal';
-import CartPageFunc from '../component_functions/handleCheckoutPageFunc';
+import CartPageFunc from '../../utils/CheckoutHandling';
 import { URL } from '../../App';
 import { useDevice } from '../../contexts/DeviceContext';
 import SearchBar from '../search_bar/SearchBar';
 import SearchResults from '../search_bar/SearchResults';
 import MobileSearch from '../search_bar/MobileSearch';
+import { FilterProducts } from '../../services/SearchService';
 
 
 export default function Navbar() {
@@ -224,7 +224,7 @@ export default function Navbar() {
   const handleChangeSearch = (input_data) => {
     setInputChange(input_data);
     setIsSearching(true);
-    SearchFunction(input_data)
+    FilterProducts(input_data)
       .then((results) => {
         const resultsArray = Object.values(results);
         setResultsData(resultsArray[0]);

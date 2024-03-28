@@ -3,7 +3,7 @@ import React from 'react';
 import { IoTrash } from 'react-icons/io5';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import responsive_cart_screen from '../component_functions/Cart_Carousel_Responsive';
+import responsive_cart_screen from '../../utils/Cart_Carousel_Responsive';
 
 function MobileCart(props) {
 

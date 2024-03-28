@@ -7,7 +7,7 @@ const reducer = (state, action) => {
     switch(action.type)
     {
         case "ADD":
-            return [...state, {id:action.id, name:action.name, img:action.img, init_price:action.init_price, final_price:action.final_price, final_condition:action.final_condition, descount: action.descount, size:action.size, color:action.color, quantity: action.quantity}];
+            return [...state, action.item];
         case "SET":
             return action.cart;
         case "REMOVE":

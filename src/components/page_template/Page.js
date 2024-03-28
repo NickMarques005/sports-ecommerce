@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { SearchFunction } from '../component_functions/SearchFunction';
 import { useSearch } from '../../contexts/SearchContext';
 import '../../styles/Page.css';
 import icon_sort from '../../imgs/icon_sort.png';
@@ -9,9 +8,10 @@ import grid_2 from '../../imgs/grid_2.png';
 import grid_3 from '../../imgs/grid_3.png';
 import grid_4 from '../../imgs/grid_4.png';
 import Card from './Card';
-import ProductsData from '../component_functions/ProductsData';
 import { useLoading } from '../../contexts/LoadingContext';
 import LoadingScreen from '../loading/LoadingScreen';
+import { GetProducts } from '../../services/ProductsService';
+import { FilterProducts } from '../../services/SearchService';
 
 function Page(props) {
   const [productsData, setProductsData] = useState([]);
@@ -59,11 +59,12 @@ function Page(props) {
   useEffect(() => {
     const fetchProductsData = async () => {
       if (props.data.name !== 'busca') {
-        const data = await ProductsData();
+        const { data, message } = await GetProducts();
         if (data) {
+          const { products, categories} = data;
           console.log("PROPS: ", props.data.name);
-          console.log(data[1]);
-          const categoriesArray = Object.values(data[1]);
+          console.log(data.categories);
+          const categoriesArray = Object.values(categories);
           const categoryData = categoriesArray.find(item => item.category === props.data.name);
           let filteredProducts = [];
           console.log("PAGE FILTER: ", categoryData.category);
@@ -71,10 +72,10 @@ function Page(props) {
           handleCategoriesName(categoryData.category);
 
           if (props.data.name == "novidades") {
-            filteredProducts = data[0].filter(product => product.new == true);
+            filteredProducts = products.filter(product => product.types.some(type => type.new === true));
           }
           else {
-            filteredProducts = data[0].filter(product => product.category === categoryData.category);
+            filteredProducts = products.filter(product => product.category === categoryData.category);
           }
 
           console.log("PRODUTOS FILTRADOS: ", filteredProducts);
@@ -89,21 +90,21 @@ function Page(props) {
       else {
         console.log("BUSCA: ", props.data.name);
         console.log("SEARCH INPUT: ", searchQuery);
-        SearchFunction(searchQuery)
-          .then((results) => {
-            const resultsArray = Object.values(results);
-            setProductsData(resultsArray[0]);
-            console.log("FILTERED DATA: ", resultsArray[0]);
-            if (resultsArray[0].length !== 0) {
-              setCategoryPage(`Encontramos ${resultsArray[0].length} resultado(s) para "${searchQuery}"`);
-            }
-            else {
-              setCategoryPage(`Nenhum resultado encontrado para "${searchQuery}"`);
-            }
-          })
-          .catch((err) => {
-            console.log("Error: ", err);
-          })
+        const { data, message } = await FilterProducts(searchQuery)
+
+        if (data) {
+          const { products, suggestions } = data
+          setProductsData(products);
+          console.log("FILTERED DATA: ", products);
+          if (products.length !== 0) {
+            setCategoryPage(`Encontramos ${products.length} resultado(s) para "${searchQuery}"`);
+          }
+          else {
+            setCategoryPage(`Nenhum resultado encontrado para "${searchQuery}"`);
+          }
+        }
+
+
       }
     };
 
@@ -126,7 +127,7 @@ function Page(props) {
           <div className="img_attribution_div">
 
           </div>
-          
+
         </div>
       </div>
 
@@ -173,7 +174,7 @@ function Page(props) {
                       productsData.map((items) => {
                         return (
                           <li key={items._id}>
-                            <Card productId={items._id} productName={items.name} productRating={items.rating} productDesc={items.description} productInitPrice={items.initial_price} productType={items.type} />
+                            <Card productId={items._id} productName={items.name} productRating={items.rating} productDesc={items.description} productInitPrice={items.initial_price} productType={items.types} />
                           </li>
                         )
                       })

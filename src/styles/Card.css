@@ -18,6 +18,11 @@
     transform:scale(1.03);
 }
 
+.item.carousel:hover .img2{
+    opacity: 100%;
+    transition: 0.3s ease;
+}
+
 .link_item{
     color: inherit;
     text-decoration: none;
@@ -115,7 +120,7 @@
     opacity: 100%;
 }
 
-.descount_div{
+.discount_div{
     display: block;
     width: auto;
     position: absolute;
@@ -131,7 +136,7 @@
     z-index: 3;
 }
 
-.descount_label{
+.discount_label{
     font-size: 15px;
     font-weight: 500;
     text-align: center;
@@ -195,7 +200,7 @@
         
     }
 
-    .descount_div{
+    .discount_div{
         padding: 7px 7px;
     }
 

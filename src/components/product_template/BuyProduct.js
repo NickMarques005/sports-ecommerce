@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/BuyProduct.css';
 import { useParams } from 'react-router-dom';
-import { BuyProductData } from '../component_functions/BuyProductData';
-import CalcPrices from '../component_functions/CalcPrices';
+import CalcPrices from '../../utils/CalcPrices';
 import { useDispatchCart, useCart } from '../../contexts/CartContext';
+import { GetProductById } from '../../services/ProductsService';
 
 
 function BuyProduct() {
@@ -13,7 +13,7 @@ function BuyProduct() {
 
 
     const [buyProductData, setBuyProductData] = useState(null);
-    const [currentTypeProduct, setCurrentTypeProduct] = useState("type1");
+    const [currentTypeProduct, setCurrentTypeProduct] = useState(0);
     const [currentTypeData, setCurrentTypedata] = useState(null);
     const [currentImgsData, setCurrentImgsData] = useState(null);
 
@@ -26,21 +26,18 @@ function BuyProduct() {
 
     useEffect(() => {
 
-        const fetchBuyProductData = async () => {
-            const data = await BuyProductData(id);
+        const fetchBuyProductData = async (idProduct) => {
+            const { data , message} = await GetProductById(idProduct)
             if (data) {
-                console.log("PRODUCT DATA: ", data.filteredProduct[0]);
-                setBuyProductData(data.filteredProduct[0]);
-
+                console.log("PRODUCT DATA: ", data);
+                setBuyProductData(data);
+                return;
             }
-            else {
 
-                console.log("No data found");
-
-            }
+            console.error("Nenhum dado encontrado sobre o produto em questão");
         }
 
-        fetchBuyProductData();
+        fetchBuyProductData(id);
 
     }, [id]);
 
@@ -48,10 +45,9 @@ function BuyProduct() {
 
         const handleTypeProducts = () => {
 
-            if (buyProductData && buyProductData.type && buyProductData.type[currentTypeProduct]) {
-                const currentType = buyProductData.type[currentTypeProduct];
-                const imgsType = buyProductData.type[currentTypeProduct].imgs;
-                const imgsTypeArray = Object.values(imgsType);
+            if (buyProductData && buyProductData.types && buyProductData.types.length > currentTypeProduct) {
+                const currentType = buyProductData.types[currentTypeProduct];
+                const imgsTypeArray = currentType.imgs ? currentType.imgs : [];
                 console.log("CURRENT TYPE: ");
                 console.log(currentType);
                 setCurrentTypedata(currentType);
@@ -79,7 +75,7 @@ function BuyProduct() {
     }
 
     const handleSizeProduct = (size, quantity) => {
-        if(sizeProduct == size)
+        if(sizeProduct === size)
         {
             setSizeProduct(null);
             setQuantityProduct(null);
@@ -100,18 +96,18 @@ function BuyProduct() {
                 const cartItem = {
                     id: buyProductData._id,
                     name: buyProductData.name,
-                    img: currentTypeData.imgs.img1,
+                    img: currentTypeData.imgs[0],
                     init_price: CalcPrices.toStringPrice(buyProductData.initial_price),
-                    final_price: CalcPrices.calcNewPrice(buyProductData.initial_price, currentTypeData.descount),
+                    final_price: CalcPrices.calcNewPrice(buyProductData.initial_price, currentTypeData.discount),
                     final_condition: currentTypeData.condition_price,
-                    descount: currentTypeData.descount,
+                    discount: currentTypeData.discount,
                     size: sizeProduct,
                     color: currentTypeData.color,
                     quantity: quantityProduct
                 }
 
-                await dispatch({ type: "ADD", id: buyProductData._id, name: buyProductData.name, img: currentTypeData.imgs.img1, init_price: CalcPrices.toStringPrice(buyProductData.initial_price), final_price: CalcPrices.calcNewPrice(buyProductData.initial_price, currentTypeData.descount), final_condition: currentTypeData.condition_price, descount: currentTypeData.descount, size: sizeProduct, color: currentTypeData.color, quantity: quantityProduct});
-                console.log(data);
+                await dispatch({ type: "ADD", item: cartItem});
+                console.log(cartItem);
 
                 const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
                 const updatedCart = [...currentCart, cartItem];
@@ -124,10 +120,6 @@ function BuyProduct() {
         }
     }
 
-    /*****************/
-    /*    RENDER 
-    /*****************/
-
     return (
         <div className="buyProductTemplate_main_div">
             <div className="buyProductTemplate_ImgsInfo_div">
@@ -137,7 +129,7 @@ function BuyProduct() {
                         {
                             currentTypeData ?
                                 <div className="buyProduct_imgMain">
-                                    <img src={`/product_imgs/${currentImgsData[0]}`} alt="product_img" />
+                                    <img src={`/product_imgs/${currentImgsData[currentTypeProduct]}`} alt="product_img" />
                                 </div>
                                 : ""
                         }
@@ -190,15 +182,15 @@ function BuyProduct() {
 
                         {
                             currentTypeData ?
-                                <span className="buyProduct_newPrice">R${buyProductData ? CalcPrices.calcNewPrice(buyProductData.initial_price, currentTypeData.descount) : ""}</span>
+                                <span className="buyProduct_newPrice">R${buyProductData ? CalcPrices.calcNewPrice(buyProductData.initial_price, currentTypeData.discount) : ""}</span>
                                 : ""
                         }
 
                         {
-                            currentTypeData && currentTypeData.descount != 0 ?
-                                <div className="buyProduct_prices_descount_div">
+                            currentTypeData && currentTypeData.discount != 0 ?
+                                <div className="buyProduct_prices_discount_div">
                                     <span className="buyProduct_initPrice">R${CalcPrices.toStringPrice(buyProductData.initial_price)}</span>
-                                    <span className="buyProduct_descount">-{currentTypeData.descount}% off</span>
+                                    <span className="buyProduct_discount">-{currentTypeData.discount}% off</span>
                                 </div>
                                 : ""
                         }
@@ -209,7 +201,7 @@ function BuyProduct() {
                         currentTypeData && currentTypeData.condition_price ?
                             <div className="buyProduct_condition_div">
                                 <span className="buyProduct_condition">ou {currentTypeData.condition_price}x de R${
-                                    currentTypeData.descount !== 0 ? CalcPrices.calcCondition(CalcPrices.calcNewPrice(buyProductData.initial_price, currentTypeData.descount), currentTypeData.condition_price)
+                                    currentTypeData.discount !== 0 ? CalcPrices.calcCondition(CalcPrices.calcNewPrice(buyProductData.initial_price, currentTypeData.discount), currentTypeData.condition_price)
                                         : CalcPrices.calcCondition(buyProductData.initial_price, currentTypeData.condition_price)
                                 }</span>
                             </div>
@@ -228,15 +220,12 @@ function BuyProduct() {
 
                             <ul>
                                 {
-                                    buyProductData && buyProductData.type
-                                    && Object.keys(buyProductData.type).map((key, index) => {
-
-                                        const type = buyProductData.type[key];
-
+                                    buyProductData && buyProductData.types
+                                    && buyProductData.types.map((type, index) => {
 
                                         return (
-                                            <li onClick={() => handleChangeType(key)} key={index}>
-                                                <img className="itemType_img" src={`/product_imgs/${type.imgs.img1}`} alt={`product_img_${key}`} />
+                                            <li onClick={() => handleChangeType(index)} key={index}>
+                                                <img className="itemType_img" src={`/product_imgs/${type.imgs[index]}`} alt={`product_img_${index}`} />
                                             </li>
                                         )
                                     })

@@ -6,11 +6,15 @@ import View_Icon from '../../imgs/view_icon.png';
 import Hide_Icon from '../../imgs/hide_icon.png';
 import '../../styles/Login.css';
 import { URL } from '../../App';
+import { LoginUser } from '../../services/AuthenticationService';
+import { UseAuth } from '../../contexts/AuthContext';
 
 function LoginForm() {
 
     //Variables and Hooks
     let navigate = useNavigate();
+
+    const { SaveToken } = UseAuth();
 
     const [emailInput, setEmailInput] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
@@ -22,25 +26,18 @@ function LoginForm() {
     const passwordInputRef = useRef(null);
 
     const [loginCredentials, setLoginCredentials] = useState({ email: "", password: "" });
+    const [rememberMe, setRememberMe] = useState(false);
 
-    //-> PASSWORD FUNCTIONS
-
-    //PASSWORD VISIBILITY FUNCTION
     const passwordVisibility = () => {
         passwordInputRef.current.focus();
         setShowPassword((prev_password) => !prev_password);
     };
 
-    //-> VALIDATE FUNCTIONS
-
-    //VALIDATE EMAIL FUNCTION
     const validateEmail = (email) => {
         const email_format = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return email_format.test(email);
     };
 
-
-    //VALIDATE PASSWORD FUNCTION
     const validatePassword = (password) => {
         if (password.length >= 8) {
             return true;
@@ -50,9 +47,6 @@ function LoginForm() {
         }
     };
 
-    //-> HANDLE ERRORS FUNCTION
-
-    //HANDLE INPUTS FUNCTION
     const handleInputsValidation = (name, value) => {
 
         let isValid = null;
@@ -80,38 +74,18 @@ function LoginForm() {
 
     };
 
-    //-> HANDLE LOGIN 
-
     const handleLogin = async (e) => {
         e.preventDefault();
         console.log(loginCredentials);
-        const response = await fetch(`${URL}/api/loginuser`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({ email: loginCredentials.email, password: loginCredentials.password })
-        });
-
-        console.log(response);
-
-        if (response.ok) {
-            const json = await response.json();
-            console.log(json);
-
-            if (json.success) {
-                localStorage.setItem("authToken", json.authToken);
-                console.log(localStorage.getItem("authToken"));
-                navigate("/");
-            }
-            else {
-                console.log("Login Failed");
-            }
+        const response = await LoginUser(loginCredentials)
+        if(response)
+        {
+            const {data, message} = response;
+            console.log(data);
+            console.log(message);
+            SaveToken(data.token, rememberMe);
+            navigate('/');
         }
-        else{
-            console.log("Fetch Response Connection Error");
-        }
-
     }
 
     //-> CHANGE INPUT DATA FUNCTION
@@ -192,7 +166,10 @@ function LoginForm() {
 
                         <div className="rememberme_forgotpassword">
                             <div className="rememberme_div">
-                                <input type="checkbox" />
+                                <input type="checkbox"
+                                    checked={rememberMe}
+                                    onChange={() => setRememberMe(!rememberMe)}
+                                    />
                                 <label>Lembrar de mim</label>
                             </div>
 

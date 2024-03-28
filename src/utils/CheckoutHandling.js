@@ -1,10 +1,10 @@
 //---handleCheckoutPageFunc.js---//
 
 
-const handleCheckoutPageFunc = (navigate, page, data, direction) => {
+const handleCheckoutPageFunc = (navigate, page, data, direction, token) => {
 
     console.log("CART CHECKOUT PAGE");
-    if (!localStorage.getItem("authToken")) {
+    if (!token) {
         if(page == "/compra/carrinho" || page == "/compra/identifica%C3%A7%C3%A3o" || page == "/compra/pagamento")
         {
             console.log("SEM AUTH");
@@ -15,7 +15,7 @@ const handleCheckoutPageFunc = (navigate, page, data, direction) => {
         }
         
     } else {
-        console.log("COM AUTH");
+        console.log("Autenticado para fazer a compra!");
         switch(page)
         {
             case "/compra/carrinho":
@@ -28,7 +28,8 @@ const handleCheckoutPageFunc = (navigate, page, data, direction) => {
                     }
                 }
                 else{
-                    navigate("/login");
+                    navigate("/");
+                    console.log("Não há como efetuar compra");
                 }
                 break;
             case "/compra/identifica%C3%A7%C3%A3o":
@@ -45,7 +46,8 @@ const handleCheckoutPageFunc = (navigate, page, data, direction) => {
                     
                 }
                 else{
-                    navigate("/login");
+                    navigate("/");
+                    console.log("Não há como efetuar compra");
                 }
                 break;
             case "/compra/pagamento":
@@ -61,7 +63,8 @@ const handleCheckoutPageFunc = (navigate, page, data, direction) => {
                     }
                 }
                 else{
-                    navigate("/login");
+                    navigate("/");
+                    console.log("Não há como efetuar compra");
                 }
                 break;
             default:

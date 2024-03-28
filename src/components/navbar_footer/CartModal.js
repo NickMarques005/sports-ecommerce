@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/CartModal.css';
-import CalcPrices from '../component_functions/CalcPrices';
+import CalcPrices from '../../utils/CalcPrices';
 import { useNavigate } from 'react-router-dom';
 import { useCart, useDispatchCart } from '../../contexts/CartContext';
-import CartPageFunc from '../component_functions/handleCheckoutPageFunc';
-import handleCheckoutPageFunc from '../component_functions/handleCheckoutPageFunc';
+import CartPageFunc from '../../utils/CheckoutHandling';
+import handleCheckoutPageFunc from '../../utils/CheckoutHandling';
 
 function CartModal(props) {
 
@@ -132,7 +132,6 @@ function CartModal(props) {
 
             setGroupedCartData(updatedGroupedCartData);
 
-
             const newItem = {
                 id: data.id,
                 name: data.name,
@@ -148,14 +147,10 @@ function CartModal(props) {
             }
 
             const updatedCartData = [...cartData, newItem];
-            await dispatch({ type: "ADD", ...newItem });
+            await dispatch({ type: "ADD", item: newItem });
             localStorage.setItem('cart', JSON.stringify(updatedCartData));
         }
     };
-
-    /*****************/
-    /*    RENDER 
-    /*****************/
 
     return (
         <div className={`cartModal_dontTouch ${!props.cart_view ? "off" : ""}`}>

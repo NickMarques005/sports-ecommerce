@@ -1,6 +1,5 @@
 //---CalcPrices.js---//
 
-
 const CalcPrices = {
 
     toStringPrice: (number) => {

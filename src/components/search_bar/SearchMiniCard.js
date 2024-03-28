@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../styles/SearchMiniCard.css';
-import CalcPrices from '../component_functions/CalcPrices';
+import CalcPrices from '../../utils/CalcPrices';
 
 function SearchMiniCard(props) {
 

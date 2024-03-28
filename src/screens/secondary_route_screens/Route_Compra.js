@@ -8,7 +8,7 @@ import Cart from '../../components/checkout/Cart';
 import Identification from '../../components/checkout/Identification';
 import Payment from '../../components/checkout/Payment';
 import { useCart, useDispatchCart } from '../../contexts/CartContext';
-import CalcPrices from '../../components/component_functions/CalcPrices';
+import CalcPrices from '../../utils/CalcPrices';
 
 function Route_Compra() {
 
