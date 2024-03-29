@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/navbar_footer/Navbar';
+import Navbar from '../../components/navbar_footer/navbar/Navbar';
 import Footer from '../../components/navbar_footer/Footer';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import '../../styles/Main.css';

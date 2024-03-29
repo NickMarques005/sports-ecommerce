@@ -135,10 +135,10 @@
     text-transform: uppercase;
 }
 
-.rememberme_forgotpassword{
+.forgotpassword{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 80%;
 }
 

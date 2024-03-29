@@ -59,8 +59,9 @@ function Page(props) {
   useEffect(() => {
     const fetchProductsData = async () => {
       if (props.data.name !== 'busca') {
-        const { data, message } = await GetProducts();
-        if (data) {
+        const response = await GetProducts();
+        if (response) {
+          const { data, message } = response;
           const { products, categories} = data;
           console.log("PROPS: ", props.data.name);
           console.log(data.categories);

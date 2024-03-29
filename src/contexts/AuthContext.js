@@ -1,44 +1,66 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { GetUserData } from '../services/AuthenticationService';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [authToken, setAuthToken] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem("authToken");
-        if (token) {
-            console.log("Token encontrado: ", token);
-            setAuthToken(token);
-        }
 
-        console.log("Não autenticado...");
+        const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+        console.log("Verificação de Token em localStorage...");
+        if (token) {
+            setAuthToken(token);
+            return;
+        }
+        
+        console.log("Sem token de autenticação");
+
     }, []);
 
-    const SaveToken = async (token, RememberMe) => {
-        if(!token)
+    useEffect (() => {
+        if(userData)
         {
+            return console.log("Usuário já autenticado!!");
+        }
+
+        if(authToken) {
+            HandleFetchUserData(authToken);
+        }
+
+    }, [authToken]);
+
+    const HandleFetchUserData = async (token) => {
+        const response = await GetUserData(token);
+        if (response) {
+            console.log("User Data: ", response);
+            const user = response.data;
+            setUserData(user);
+            setIsLogged(true);
+            return;
+        }
+
+        LogoutUser();
+    }
+
+    const SaveToken = async (token) => {
+        if (!token) {
             return console.error("Erro ao salvar token: token não fornecido");
         }
 
-        if(RememberMe)
-        {
-            console.log("Remember user...");
-            localStorage.setItem("authToken", token);
-        }
-
+        localStorage.setItem("authToken", token);
         console.log("Token: ", token);
-
         setAuthToken(token);
     };
 
     const SaveUserData = (user) => {
-        if(!user)
-        {
+        if (!user) {
             return console.error("Erro ao salvar dados de usuário");
         }
-        
+
         const data = {
             name: user.name,
             email: user.email,
@@ -51,13 +73,16 @@ export const AuthProvider = ({ children }) => {
     }
 
     const LogoutUser = () => {
-        localStorage.removeItem("authToken");
+        console.log("LOGOUT ACIONADO");
+        if (localStorage.getItem("authToken")) localStorage.removeItem("authToken");
+
         setAuthToken(null);
         setUserData(null);
+        setIsLogged(false);
     }
 
     return (
-        <AuthContext.Provider value={{ authToken, SaveToken, userData, SaveUserData, LogoutUser }}>
+        <AuthContext.Provider value={{ authToken, SaveToken, userData, SaveUserData, LogoutUser, isLogged, setIsLogged }}>
             {children}
         </AuthContext.Provider>
     );

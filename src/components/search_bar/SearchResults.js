@@ -5,8 +5,7 @@ const SearchResults = ({ search, resultsData, suggestionsData, handleSuggestionC
     return (
         <div className={`search_results_div ${resultsData.length === 0 && !inputWorking ? "off" : ""}`}>
 
-            {!isSearching ?
-
+            {
                 <>
                     <div className="suggestions_div">
                         <div className="suggestions_title_div">
@@ -26,8 +25,8 @@ const SearchResults = ({ search, resultsData, suggestionsData, handleSuggestionC
                                     }
                                 </ul>
                                 :
-
                                 <label>{`Nenhuma sugestão encontrada`}</label>
+                                
                         }
 
                     </div>
@@ -35,8 +34,9 @@ const SearchResults = ({ search, resultsData, suggestionsData, handleSuggestionC
                         <div className="searchProducts_title_div">
                             <span>Produtos</span>
                         </div>
-
-                        {
+                        
+                        { 
+                            
                             resultsData.length !== 0 ?
                                 <ul>
                                     {
@@ -44,7 +44,7 @@ const SearchResults = ({ search, resultsData, suggestionsData, handleSuggestionC
                                             <li key={result._id}>
                                                 <SearchMiniCard
                                                     searchProductId={result._id}
-                                                    searchProductType={result.type}
+                                                    searchProductType={result.types}
                                                     searchProductName={result.name}
                                                     searchProductInitPrice={result.initial_price}
                                                 />
@@ -58,11 +58,11 @@ const SearchResults = ({ search, resultsData, suggestionsData, handleSuggestionC
                                 <label>
                                     {`Nenhum resultado encontrado para ${search}`}
                                 </label>
+                                
                         }
 
                     </div>
                 </>
-                : ""
             }
 
         </div>

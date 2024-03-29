@@ -6,12 +6,14 @@ import Password_icon from '../../imgs/password_icon.png';
 import View_Icon from '../../imgs/view_icon.png';
 import Hide_Icon from '../../imgs/hide_icon.png';
 import { URL } from '../../App';
+import { SignUpUser } from '../../services/AuthenticationService';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpForm() {
 
-    //Variables and Hooks
+    let navigate = useNavigate();
     
-    const [isNameValid, setIsNameValid] = useState(true);
+    const [isusernameValid, setIsusernameValid] = useState(true);
     
     const [isEmailValid, setIsEmailValid] = useState(true);
     
@@ -30,7 +32,7 @@ function SignUpForm() {
     const passwordInputRef = useRef(null);
 
     const [isFormValid, setIsFormValid] = useState(false);
-    const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cep_location: {bairro: "", localidade: "", uf: "", logradouro: "", number: ""}});
+    const [credentials, setCredentials] = useState({ username: "", email: "", password: "", cep_location: {bairro: "", localidade: "", uf: "", logradouro: "", number: ""}});
     
     //-> PASSWORD FUNCTIONS:
 
@@ -120,15 +122,13 @@ function SignUpForm() {
 
     //->VALIDATION FUNCTIONS:
 
-    //VALIDATE EMAIL FUNCTION
     const validateEmail = (email) => {
         const email_format = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return email_format.test(email);
     };
 
-    //VALIDATE NAME FUNCTION
-    const validateName = (name) => {
-        if(name.length >= 3)
+    const validateUserName = (username) => {
+        if(username.length >= 3)
         {
             return true;
         }
@@ -137,7 +137,6 @@ function SignUpForm() {
         }
     };
 
-    //VALIDATE PASSWORD FUNCTION
     const validatePassword = (password) => {
         if(password.length >= 8)
         {
@@ -148,21 +147,18 @@ function SignUpForm() {
         }
     };
 
-    //-> HANDLE ERRORS FUNCTION
-
-    //HANDLE INPUTS FUNCTION
-    const handleInputsValidation = (name, value) => {
+    const handleInputsValidation = (username, value) => {
         
         let isValid = null;
 
-        switch(name)
+        switch(username)
         {
         
-            case "name":
-                isValid = validateName(value);
-                setIsNameValid(isValid);
+            case "username":
+                isValid = validateUserName(value);
+                setIsusernameValid(isValid);
                 if(!isValid){
-                    setCredentials({ ...credentials, name: "" });
+                    setCredentials({ ...credentials, username: "" });
                 }
             break;
 
@@ -186,36 +182,24 @@ function SignUpForm() {
         
     };
 
-    //->SUBMIT FUNCTIONS:
+    //->SUBMIT FUNCTION:
 
-    //HANDLE SUBMIT FUNCTION
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(credentials);
-        const response = await fetch(`${URL}/api/createuser`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password, cep_location: credentials.cep_location })
-        });
-
-        console.log(response);
-
-        if(response.ok){
-            const json = await response.json();
-            console.log(json);
-            console.log(json.success);
-        }
-        else{
-            console.log("Fetch Response Connection Error");
-        }
         
+        const response = await SignUpUser(credentials)
+        if(response)
+        {
+            const {message} = response;
+            console.log(message);
+            navigate('/login');
+        }
     }
 
     //CHECK FORM VALIDITY FUNCTION
     const checkFormValidity = () => {
-        if(credentials.name && credentials.email && credentials.password 
+        if(credentials.username && credentials.email && credentials.password 
             && credentials.cep_location.bairro 
             && credentials.cep_location.localidade
             && credentials.cep_location.logradouro
@@ -258,14 +242,14 @@ function SignUpForm() {
                 <form onSubmit={handleSubmit} className="form_register">
 
                     <div className="input_div_template_main">
-                        <div className={isNameValid ? 'input_div_register input_default' : 'input_div_register input_error'}>
+                        <div className={isusernameValid ? 'input_div_register input_default' : 'input_div_register input_error'}>
                             <span className="icon"></span>
                             <input
                                 type="text"
                                 required
-                                name="name"
+                                name="username"
                                 maxLength={32}
-                                value={credentials.name}
+                                value={credentials.username}
                                 onChange={onChangeInputData}
                                 onBlur={(e) => 
                                 handleInputsValidation(e.target.name, e.target.value)}
@@ -344,7 +328,6 @@ function SignUpForm() {
                                 name="cep_location"
                                 onChange={(e) => {
                                     handleCepChange(e);
-                                    
                                 }}
                                 onBlur={
                                     (e) => {
@@ -363,7 +346,7 @@ function SignUpForm() {
                     <div className={contentCep ? "cep_content_div_main" : "cep_content_div_main_hide"}>
                         
                         <div className="cep_data_title_div">
-                            <span>Dados de Entrega</span>
+                            <span>Dados do Endereço</span>
                         </div>
                         
                         <div className="cep_location_div">

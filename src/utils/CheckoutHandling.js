@@ -1,7 +1,5 @@
-//---handleCheckoutPageFunc.js---//
 
-
-const handleCheckoutPageFunc = (navigate, page, data, direction, token) => {
+const handleCheckout = (navigate, page, data, direction, token) => {
 
     console.log("CART CHECKOUT PAGE");
     if (!token) {
@@ -75,4 +73,4 @@ const handleCheckoutPageFunc = (navigate, page, data, direction, token) => {
     }
 };
 
-export default handleCheckoutPageFunc;
+export default handleCheckout;

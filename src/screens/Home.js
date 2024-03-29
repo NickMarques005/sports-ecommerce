@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Navbar from '../components/navbar_footer/Navbar';
+import Navbar from '../components/navbar_footer/navbar/Navbar';
 import Footer from '../components/navbar_footer/Footer';
 import '../styles/Home.css';
 import '../styles/Main.css';

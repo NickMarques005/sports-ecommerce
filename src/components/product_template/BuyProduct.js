@@ -27,8 +27,9 @@ function BuyProduct() {
     useEffect(() => {
 
         const fetchBuyProductData = async (idProduct) => {
-            const { data , message} = await GetProductById(idProduct)
-            if (data) {
+            const response = await GetProductById(idProduct)
+            if (response) {
+                const { data, message } = response;
                 console.log("PRODUCT DATA: ", data);
                 setBuyProductData(data);
                 return;

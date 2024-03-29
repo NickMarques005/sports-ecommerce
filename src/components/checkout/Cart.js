@@ -4,11 +4,12 @@ import "../../styles/Checkout.css";
 import { useCart, useDispatchCart } from '../../contexts/CartContext';
 import LevelCheckout from './LevelCheckout';
 import CalcPrices from '../../utils/CalcPrices';
-import handleCheckoutPageFunc from '../../utils/CheckoutHandling';
+import handleCheckout from '../../utils/CheckoutHandling';
 import "react-multi-carousel/lib/styles.css";
 import MobileCart from './MobileCart';
 import DesktopCart from './DesktopCart';
 import { useDevice } from '../../contexts/DeviceContext';
+import { UseAuth } from '../../contexts/AuthContext';
 
 function Cart(props) {
 
@@ -20,6 +21,7 @@ function Cart(props) {
   let dispatch = useDispatchCart();
 
   const { isMobile } = useDevice();
+  const { isLogged, authToken } = UseAuth();
 
   let navigate = useNavigate();
   let currentRoute = window.location.pathname;
@@ -163,7 +165,7 @@ function Cart(props) {
   }
 
   const handleNext = (page) => {
-    if (localStorage.getItem("authToken")) {
+    if (isLogged && authToken) {
       if (groupedData.length !== 0) {
         console.log("TEM ITEM")
 
@@ -175,10 +177,6 @@ function Cart(props) {
     navigate("/login");
   }
 
-  /*****************/
-  /*    USEFFECTS 
-  /*****************/
-
   useEffect(() => {
     calculateTotalValues();
   }, [groupedData]);
@@ -187,10 +185,6 @@ function Cart(props) {
   useEffect(() => {
     setGroupedData(props.group_data);
   }, [groupedData]);
-
-  /*****************/
-  /*    RENDER 
-  /*****************/
 
   return (
     <div className="cartPage_div">
@@ -264,7 +258,7 @@ function Cart(props) {
 
             <div className="checkout_summaryInfo_template">
               <button onClick={() => {
-                handleCheckoutPageFunc(navigate, currentRoute, cartData, "next")
+                handleCheckout(navigate, currentRoute, cartData, "next", authToken)
               }}>Continuar</button>
             </div>
           </div>

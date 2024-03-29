@@ -11,7 +11,6 @@ import { UseAuth } from '../../contexts/AuthContext';
 
 function LoginForm() {
 
-    //Variables and Hooks
     let navigate = useNavigate();
 
     const { SaveToken } = UseAuth();
@@ -88,8 +87,6 @@ function LoginForm() {
         }
     }
 
-    //-> CHANGE INPUT DATA FUNCTION
-
     const onChangeInputData = (e) => {
 
         setLoginCredentials({ ...loginCredentials, [e.target.name]: e.target.value })
@@ -164,15 +161,7 @@ function LoginForm() {
                         </div>
 
 
-                        <div className="rememberme_forgotpassword">
-                            <div className="rememberme_div">
-                                <input type="checkbox"
-                                    checked={rememberMe}
-                                    onChange={() => setRememberMe(!rememberMe)}
-                                    />
-                                <label>Lembrar de mim</label>
-                            </div>
-
+                        <div className="forgotpassword">
                             <a href="#">Esqueci minha senha</a>
                         </div>
 

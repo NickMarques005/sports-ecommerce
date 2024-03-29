@@ -1,31 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/Navbar.css';
-import Menu from './Menu';
+import './Navbar.css';
+import Menu from '../Menu';
 import { IoCart, IoMenuOutline, IoHeart } from 'react-icons/io5';
-import Sports_Logo from '../../imgs/Sports.png';
-import Account_Img from '../../imgs/user.png';
-import DropDownItem from '../dropdown_menu/DropDownItem';
-import option_Images from '../../imgs/ImportOptionsImgs';
-import { useSearch } from '../../contexts/SearchContext';
-import { useCart } from '../../contexts/CartContext';
-import CartModal from './CartModal';
-import CartPageFunc from '../../utils/CheckoutHandling';
-import { URL } from '../../App';
-import { useDevice } from '../../contexts/DeviceContext';
-import SearchBar from '../search_bar/SearchBar';
-import SearchResults from '../search_bar/SearchResults';
-import MobileSearch from '../search_bar/MobileSearch';
-import { FilterProducts } from '../../services/SearchService';
+import Sports_Logo from '../../../imgs/Sports.png';
+import Account_Img from '../../../imgs/user.png';
+import DropDownItem from '../../dropdown_menu/DropDownItem';
+import option_Images from '../../../utils/ImportOptionsImgs';
+import { useSearch } from '../../../contexts/SearchContext';
+import { useCart } from '../../../contexts/CartContext';
+import CartModal from '../CartModal';
+import CartPageFunc from '../../../utils/CheckoutHandling';
+import { URL } from '../../../App';
+import { useDevice } from '../../../contexts/DeviceContext';
+import SearchBar from '../../search_bar/SearchBar';
+import SearchResults from '../../search_bar/SearchResults';
+import MobileSearch from '../../search_bar/MobileSearch';
+import { FilterProducts } from '../../../services/SearchService';
+import { UseAuth } from '../../../contexts/AuthContext';
+import Options from '../../../utils/AccountOptions';
 
 
 export default function Navbar() {
 
-  //Variables and Hooks
   let currentRoute = window.location.pathname;
   let navigate = useNavigate();
-
-  console.log(currentRoute);
 
   const handleLogout = () => {
     console.log("AUTHTOKEN REMOVE");
@@ -39,62 +38,9 @@ export default function Navbar() {
     }
   }
 
-  const account_options = [
-    {
-
-      id: 0,
-      option_name: "Entrar",
-      option_img: option_Images.option_entrar,
-      option_altImg: "entrar_imagem",
-      option_link: "/login",
-      option_pointer: option_Images.option_pointer
-    },
-    {
-      id: 1,
-      option_name: "Minha Conta",
-      option_img: option_Images.option_minhaconta,
-      option_link: "#",
-      option_altImg: "minhaconta_imagem",
-      option_pointer: option_Images.option_pointer
-    },
-    {
-      id: 2,
-      option_name: "Meus Pedidos",
-      option_img: option_Images.option_pedidos,
-      option_link: "#",
-      option_linkNoAuth: "/register",
-      option_altImg: "meuspedidos_imagem",
-      option_pointer: option_Images.option_pointer
-    },
-    {
-      id: 3,
-      option_name: "Serviços",
-      option_img: option_Images.option_servicos,
-      option_link: "#",
-      option_altImg: "serviços_imagem",
-      option_pointer: option_Images.option_pointer
-    },
-    {
-      id: 4,
-      option_name: "Atendimento e FAQ",
-      option_img: option_Images.option_faq,
-      option_link: "#",
-      option_altImg: "atendimentoFAQ_imagem",
-      option_pointer: option_Images.option_pointer
-    },
-    {
-      id: 5,
-      option_name: "hr"
-    },
-    {
-      id: 6,
-      option_name: "Sair",
-      option_img: option_Images.option_sair,
-      option_altImg: "sair_imagem",
-      option_pointer: option_Images.option_pointer,
-      option_function: handleLogout
-    },
-  ]
+  const { authToken, userData, isLogged} = UseAuth();
+  const account_options = Options();
+  console.log(account_options)
 
   const { isMobile } = useDevice();
   const [openSearchMobile, setOpenSearchMobile] = useState(false);
@@ -111,9 +57,6 @@ export default function Navbar() {
   const [optionsOn, setOptionsOn] = useState(true);
   const [updatedAccountOptions, setUpdatedAccountOptions] = useState([]);
 
-  const [userData, setUserData] = useState([]);
-  const [isLogged, setIsLogged] = useState(false);
-
   const [inputChange, setInputChange] = useState('');
 
   const { searchQuery, setSearchQuery } = useSearch();
@@ -126,41 +69,7 @@ export default function Navbar() {
   let dropdownMenuRef = useRef();
   let imgAccountRef = useRef();
 
-  //console.log("AUTH TOKEN: ", localStorage.getItem("authToken"));
 
-
-  /*****************/
-  /*  USE EFFECTS 
-  /*****************/
-
-
-  //COLOCAR EM UM CONTEXT
-  useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-    if (authToken) {
-      fetch(`${URL}/api/userData`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      })
-        .then(res => res.json())
-        .then((userdata) => {
-          //console.log(userdata);
-          setIsLogged(true);
-          setUserData(userdata.user);
-        })
-        .catch((err) => {
-          console.log("ERROR: ", err);
-        })
-    }
-    else {
-      //console.log("No Authentication")
-      setIsLogged(false);
-    }
-  }, [isLogged]);
-
-  //
 
   useEffect(() => {
     let handleMenu = (e) => {
@@ -222,13 +131,21 @@ export default function Navbar() {
   }, [search]);
 
   const handleChangeSearch = (input_data) => {
+    if(input_data === "")
+    {
+      setSuggestionsData([]);
+      setResultsData([]);
+      return console.log("Input Vazio");
+    }
+
     setInputChange(input_data);
     setIsSearching(true);
     FilterProducts(input_data)
       .then((results) => {
-        const resultsArray = Object.values(results);
-        setResultsData(resultsArray[0]);
-        setSuggestionsData(resultsArray[1]);
+        const { products, suggestions} = results.data;
+        console.log(results);
+        setResultsData(products);
+        setSuggestionsData(suggestions);
         setIsSearching(false);
       })
       .catch((err) => {
@@ -260,11 +177,6 @@ export default function Navbar() {
   }, [currentRoute]);
 
 
-  /*****************/
-  /*   FUNCTIONS 
-  /*****************/
-
-
   //Funcionalidade: tratar busca de itens do input de pesquisa
   const handleSearchKeyPress = (event) => {
     if (event.key === 'Enter' && search !== '') {
@@ -288,20 +200,6 @@ export default function Navbar() {
     console.log("SEARCH: ", search);
   }
 
-  //Funcionalidade: tratar a disponibilidade das opções da conta de acordo com a autenticação
-  const handleDropDownMenu_OptionsFunctions = (option, function_option) => {
-
-    if (localStorage.getItem("authToken")) {
-      if (option.id === 2 || option.id === 3 || option.id === 4) {
-        console.log("SEM FUNÇÃO!");
-        return;
-      }
-      else {
-        function_option ? function_option() : console.log("OPÇÃO NAO POSSUI FUNÇÃO");
-      }
-    }
-  }
-
   const handleMobileSearch = () => {
     console.log("Mobile Search");
     setOpenSearchMobile(!openSearchMobile);
@@ -319,10 +217,6 @@ export default function Navbar() {
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
   };
-
-  /*****************/
-  /*    RENDER 
-  /*****************/
 
   return (
     <div className="aux_navBarMainOptions_div">
@@ -415,7 +309,7 @@ export default function Navbar() {
                               !isLogged && option.id === 1 || !isLogged && option.id === 6 ? ""
                                 : (
                                   <li key={isLogged ? option.id : index}>
-                                    <DropDownItem link={!localStorage.getItem("authToken") && option.id === 2 ? option.option_linkNoAuth : option.option_link} img={option.option_img} text={option.option_name} altImg={option.option_altImg} pointer={option.option_pointer} option_func={option.option_function ? option.option_function : null} handle_function={handleDropDownMenu_OptionsFunctions} />
+                                    <DropDownItem link={!authToken && option.id === 2 ? option.linkNoAuth : option.link} img={option.img} name={option.name} altImg={option.altImg} pointer={option.pointer} option_action={option.action ? option.action : null}/>
                                   </li>
                                 )
                       )

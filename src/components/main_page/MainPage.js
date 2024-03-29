@@ -22,8 +22,9 @@ function MainPage() {
     useEffect(() => {
         const fetchProductsData = async () => {
 
-            const { data } = await GetProducts();
-            if (data) {
+            const response = await GetProducts();
+            if (response) {
+                const { data, message } = response;
                 console.log(data);
                 const productsArray = Object.values(data.products);
                 setMainProductData(productsArray);
