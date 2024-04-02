@@ -60,7 +60,7 @@ function Page(props) {
     const fetchProductsData = async () => {
       if (props.data.name !== 'busca') {
         const response = await GetProducts();
-        if (response) {
+        if (response.success) {
           const { data, message } = response;
           const { products, categories} = data;
           console.log("PROPS: ", props.data.name);
@@ -91,10 +91,10 @@ function Page(props) {
       else {
         console.log("BUSCA: ", props.data.name);
         console.log("SEARCH INPUT: ", searchQuery);
-        const { data, message } = await FilterProducts(searchQuery)
+        const response = await FilterProducts(searchQuery)
 
-        if (data) {
-          const { products, suggestions } = data
+        if (response.data) {
+          const { products, suggestions } = response.data;
           setProductsData(products);
           console.log("FILTERED DATA: ", products);
           if (products.length !== 0) {
@@ -104,18 +104,11 @@ function Page(props) {
             setCategoryPage(`Nenhum resultado encontrado para "${searchQuery}"`);
           }
         }
-
-
       }
     };
 
     fetchProductsData();
   }, [searchQuery]);
-
-
-  /*****************/
-  /*    RENDER 
-  /*****************/
 
   return (
 

@@ -146,7 +146,6 @@
     min-height: 40%;
     margin-inline: 15px;
     text-align: start;
-    
 }
 
 
@@ -154,7 +153,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    
 }
 
 .cartItem_name:hover {

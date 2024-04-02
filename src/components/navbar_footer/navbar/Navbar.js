@@ -69,8 +69,6 @@ export default function Navbar() {
   let dropdownMenuRef = useRef();
   let imgAccountRef = useRef();
 
-
-
   useEffect(() => {
     let handleMenu = (e) => {
       if (!checkout && dropdownMenuRef.current) {
@@ -271,7 +269,12 @@ export default function Navbar() {
                           <span>{cartItems.length}</span>
                         </div> : ""}
                     </button>
-                    {<CartModal cart_view={cartView} mouseEvents={handleCartModalMouseEvents} />}
+                    {
+                      isMobile ?
+                      ""
+                      :
+                      <CartModal cart_view={cartView} mouseEvents={handleCartModalMouseEvents} />
+                      }
                   </div>
                   <div className="login_section">
                     <img src={Account_Img} className="account_img" ref={imgAccountRef} alt={"account-img"} />
@@ -340,10 +343,5 @@ export default function Navbar() {
 
       </div>
     </div>
-
-
-
-
-
   )
 }

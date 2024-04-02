@@ -28,7 +28,7 @@ function BuyProduct() {
 
         const fetchBuyProductData = async (idProduct) => {
             const response = await GetProductById(idProduct)
-            if (response) {
+            if (response.success) {
                 const { data, message } = response;
                 console.log("PRODUCT DATA: ", data);
                 setBuyProductData(data);

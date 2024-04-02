@@ -7,9 +7,6 @@ import MainPage from '../components/main_page/MainPage';
 
 export default function Home() {
 
-  /*****************/
-  /*  RENDER HOME
-  /*****************/
   return (
 
       <div className="product_container_main">

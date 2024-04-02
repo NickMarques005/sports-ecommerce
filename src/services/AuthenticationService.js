@@ -12,3 +12,7 @@ export const GetUserData = async (token) => {
     return MakeRequest({ endpoint: '/user/data', method: 'GET', token });
 }
 
+export const VerifyToken = async (token) => {
+    return MakeRequest({ endpoint: '/user/verify-token', method: 'POST', token});
+}
+

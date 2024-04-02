@@ -262,8 +262,8 @@ a {
 
 .dropdown_login {
     position: absolute;
-    top: 80px;
-    right: 37px;
+    top: 125%;
+    right: 58px;
     background-color: white;
     border-radius: var(--border-radius);
     padding: 15px 30px;

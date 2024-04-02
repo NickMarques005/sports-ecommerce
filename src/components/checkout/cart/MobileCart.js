@@ -3,17 +3,13 @@ import React from 'react';
 import { IoTrash } from 'react-icons/io5';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import responsive_cart_screen from '../../utils/Cart_Carousel_Responsive';
+import responsive_cart_screen from '../../../utils/Cart_Carousel_Responsive';
 
 function MobileCart(props) {
 
-    /*****************/
-    /*    RENDER 
-    /*****************/
-
     return (
         <Carousel className="checkout_carousel" responsive={responsive_cart_screen}>
-            {props.groupedData && props.group_data ?
+            {props.groupedData ?
                 Object.values(props.groupedData).map((data, key) => (
 
                     <div className="cartItem_main" key={key}>

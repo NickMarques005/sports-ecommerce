@@ -4,7 +4,7 @@ import CalcPrices from '../../utils/CalcPrices';
 import { useNavigate } from 'react-router-dom';
 import { useCart, useDispatchCart } from '../../contexts/CartContext';
 import CartPageFunc from '../../utils/CheckoutHandling';
-import handleCheckoutPageFunc from '../../utils/CheckoutHandling';
+import HandleLevelCheckoutPage from '../../utils/CheckoutHandling';
 
 function CartModal(props) {
 
@@ -12,7 +12,7 @@ function CartModal(props) {
     let dispatch = useDispatchCart();
 
     let navigate = useNavigate();
-    let currentRoute = window.location.pathname;
+    let currentPage = window.location.pathname;
 
     const [groupedCartData, setGroupedCartData] = useState({});
     const [totalPrice, setTotalPrice] = useState(null);
@@ -38,22 +38,20 @@ function CartModal(props) {
                     console.log("DATA COUNT: ", data.count);
                     updatedPrice = CalcPrices.calcTotalPrice(updatedPrice, (price * data.count));
                     calculatedTotalPrice = calculatedTotalPrice + updatedPrice;
-                    if(data.final_condition)
-                    {
-                        updatedCondition =  CalcPrices.calcTotalConditionPrice(calculatedTotalCondition, (condition * data.count));
+                    if (data.final_condition) {
+                        updatedCondition = CalcPrices.calcTotalConditionPrice(calculatedTotalCondition, (condition * data.count));
                         calculatedTotalCondition = updatedCondition;
                         console.log("CONDITION WITH COUNT: ", condition * data.count);
                     }
-                    
+
                 }
                 else {
                     let first_condition = 0;
                     calculatedTotalPrice = CalcPrices.calcTotalPrice(calculatedTotalPrice, price);
-                    if(data.final_condition)
-                    {
+                    if (data.final_condition) {
                         first_condition = CalcPrices.calcTotalConditionPrice(calculatedTotalCondition, condition);
                         calculatedTotalCondition = first_condition;
-                        console.log("CONDITION 1: ", condition );
+                        console.log("CONDITION 1: ", condition);
                     }
                 }
                 console.log("TOTAL CONDITION PRICE: ", calculatedTotalConditionPrice);
@@ -64,29 +62,31 @@ function CartModal(props) {
         });
 
         setTotalPrice(CalcPrices.toStringPrice(calculatedTotalPrice));
-        setTotalConditionPrice(CalcPrices.toStringPrice(calculatedTotalPrice/totalInstallments));
+        setTotalConditionPrice(CalcPrices.toStringPrice(calculatedTotalPrice / totalInstallments));
         setTotalCondition(totalInstallments);
         console.log(calculatedTotalPrice);
-        
-        
+
+
     };
 
     useEffect(() => {
-        const groupedData = cartData.reduce((groups, data) => {
-            const key = `${data.id}-${data.size}-${data.color}`;
-            if (!groups[key]) {
-                groups[key] = {
-                    ...data,
-                    count: 0
-                };
-            }
-            groups[key].count += 1;
-            return groups;
-        }, {});
-
-        setGroupedCartData(groupedData);
-
+        
+            const groupedData = cartData.reduce((groups, data) => {
+                console.log("DATA DO CART: ", data.id);
+                const key = `${data.id}-${data.size}-${data.color}`;
+                if (!groups[key]) {
+                    groups[key] = {
+                        ...data,
+                        count: 0
+                    };
+                }
+                groups[key].count += 1;
+                return groups;
+            }, {});
+    
+            setGroupedCartData(groupedData);
     }, [cartData]);
+    
 
     useEffect(() => {
         calculateTotalValues();
@@ -105,8 +105,9 @@ function CartModal(props) {
                 }
             };
             setGroupedCartData(updatedGroupedCartData);
-
         }
+
+        console.log(cartData);
 
         const indexToRemove = cartData.findIndex(item => item.id === productId && item.size === size && item.color === color);
         if (indexToRemove !== -1) {
@@ -204,26 +205,24 @@ function CartModal(props) {
                                     <span>Preço Total: </span>
                                     <div className="cartModal_infoTotalValue_div">
                                         <span>R$ {totalPrice ? totalPrice : ""}</span>
-                                        {   totalCondition ?
+                                        {totalCondition ?
                                             <p>ou até em {totalCondition ? totalCondition : ""}x R$ {totalConditionPrice ? totalConditionPrice : ""} </p>
                                             : ""}
                                     </div>
                                 </div>
                                 <div className="cartModal_purchaseButton">
-                                    <button onClick={() => handleCheckoutPageFunc(navigate, currentRoute, cartData)}>
+                                    <button onClick={() => HandleLevelCheckoutPage(navigate, "carrinho", currentPage, {cartDataLength: cartData.length})}>
                                         Ir para o carrinho
                                     </button>
                                 </div>
                             </div>
                         </div>
-
                         :
                         <div className="cartModal_noProduct_div">
                             <h1>Seu carrinho está vazio</h1>
                             <p>No momento seu carrinho permanece sem produto. Pesquise no nosso site produtos que lhe interessam e eles aparecerão aqui! ;)</p>
                         </div>
                     }
-
                 </div>
             </div>
         </div>

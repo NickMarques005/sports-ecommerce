@@ -14,6 +14,7 @@ import Route_Equipamentos from "../screens/secondary_route_screens/Route_Equipam
 import Route_Busca from "../screens/secondary_route_screens/Route_Busca";
 import Route_Product from "../screens/secondary_route_screens/Route_Product";
 import Route_Compra from "../screens/secondary_route_screens/Route_Compra";
+import { IdentificationProvider } from "../contexts/IdentificationContext";
 
 const MainRouter = () => {
     return (
@@ -21,24 +22,26 @@ const MainRouter = () => {
             <DeviceProvider>
                 <LoadingProvider>
                     <CartProvider>
-                        <BrowserRouter>
-                            <Routes>
-                                <Route path='/' element={<Home />} />
-                                <Route path='/login' element={<Login />} />
-                                <Route path='/register' element={<Register />} />
-                                <Route path='/novidades' element={<Route_Novidades />} />
-                                <Route path='/calcados' element={<Route_Calcados />} />
-                                <Route path='/roupas' element={<Route_Roupas />} />
-                                <Route path='/acessorios' element={<Route_Acessórios />} />
-                                <Route path='/equipamentos' element={<Route_Equipamentos />} />
-                                <Route path='/busca' element={<Route_Busca />} />
-                                <Route path='/:id' element={<Route_Product />} />
-                                <Route path='/compra' element={<Navigate to="/compra/carrinho" />} />
-                                <Route path="/compra/carrinho" element={<Route_Compra />} />
-                                <Route path="/compra/identificação" element={<Route_Compra />} />
-                                <Route path="/compra/pagamento" element={<Route_Compra />} />
-                            </Routes>
-                        </BrowserRouter>
+                        <IdentificationProvider>
+                            <BrowserRouter>
+                                <Routes>
+                                    <Route path='/' element={<Home />} />
+                                    <Route path='/login' element={<Login />} />
+                                    <Route path='/register' element={<Register />} />
+                                    <Route path='/novidades' element={<Route_Novidades />} />
+                                    <Route path='/calcados' element={<Route_Calcados />} />
+                                    <Route path='/roupas' element={<Route_Roupas />} />
+                                    <Route path='/acessorios' element={<Route_Acessórios />} />
+                                    <Route path='/equipamentos' element={<Route_Equipamentos />} />
+                                    <Route path='/busca' element={<Route_Busca />} />
+                                    <Route path='/:id' element={<Route_Product />} />
+                                    <Route path='/compra' element={<Navigate to="/compra/carrinho" />} />
+                                    <Route path="/compra/carrinho" element={<Route_Compra />} />
+                                    <Route path="/compra/identificação" element={<Route_Compra />} />
+                                    <Route path="/compra/pagamento" element={<Route_Compra />} />
+                                </Routes>
+                            </BrowserRouter>
+                        </IdentificationProvider>
                     </CartProvider>
                 </LoadingProvider>
             </DeviceProvider>

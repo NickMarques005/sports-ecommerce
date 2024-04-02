@@ -9,7 +9,7 @@ const MakeRequest = async ({ endpoint, method = 'GET', data = null, token = null
         headers,
     };
 
-    if(data) config.body = JSON.stringify(data);
+    if (data) config.body = JSON.stringify(data);
 
     console.log(config);
 
@@ -17,21 +17,23 @@ const MakeRequest = async ({ endpoint, method = 'GET', data = null, token = null
         const response = await fetch(`${baseURL}${ApiRoute}${endpoint}`, config);
 
         if (!response.ok) {
-            const errorData = await response.json();
-            return console.error(errorData.error || 'Houve um Erro de Conexão');
+            const resultError = await response.json();
+            const errors = resultError.error || 'Houve um Erro de Conexão';
+            console.error("RESPONSE NOT OK: ", errors);
+            return { error: errors, success: false };
         }
 
         const result = await response.json();
         if (!result.success) {
-            return console.error(result.error);
+            console.error(result.error);
+            return { error: result.error, success: false };
         }
 
         console.log(result.message);
-        return {data: result.data, message: result.message};
+        return { data: result.data, message: result.message, success: true };
     }
     catch (err) {
-
-        return console.error("Houve um Erro:", err);
+        console.error("Houve um Erro:", err);
     }
 }
 

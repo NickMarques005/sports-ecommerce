@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import MainRouter from './routes/MainRouter';
 
 export const URL = process.env.REACT_APP_SERVER_URL;

@@ -4,14 +4,10 @@ import { IoTrash } from 'react-icons/io5';
 
 function DesktopCart(props) {
     
-    /*****************/
-    /*    RENDER 
-    /*****************/
-    
     return (
         <div className="checkout_cartProducts_div">
             <ul>
-                {props.groupedData && props.group_data ?
+                {props.groupedData ?
                     Object.values(props.groupedData).map((data, key) => (
                         <li key={key}>
                             <div className="cartItem_img">
@@ -37,7 +33,8 @@ function DesktopCart(props) {
                             </div>
                         </li>
                     ))
-                    : ""
+                    : 
+                    ""
                 }
             </ul>
         </div>

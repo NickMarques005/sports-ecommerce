@@ -3,7 +3,7 @@
     display: block;
     width: 100%;
     min-height: 100vh;
-    top: 87px;
+    top: 90px;
     right: 0%;
     background-color: #91919161;
     z-index: 3;
@@ -16,8 +16,8 @@
     position: fixed;
     display: flex;
     align-items: flex-start;
-    top: 60px;
-    right: 18%;
+    top: 70px;
+    right: 22.5%;
     width: fit-content;
     height: fit-content;
     z-index: 4;

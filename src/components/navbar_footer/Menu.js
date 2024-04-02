@@ -53,10 +53,6 @@ function Menu(props) {
         { name: 'Sair', img: Menu_Logout, function: props.handleLogout }
     ]
 
-    /*****************/
-    /*   FUNCTIONS 
-    /*****************/
-
     //Funcionamento: Mapeamento das opções 
 
     const listOptions = (type_options) => {

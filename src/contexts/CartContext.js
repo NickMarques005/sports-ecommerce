@@ -7,12 +7,17 @@ const reducer = (state, action) => {
     switch(action.type)
     {
         case "ADD":
-            return [...state, action.item];
+            const cartIncremented = [...state, action.item];
+            console.log(cartIncremented);
+            return cartIncremented;
         case "SET":
-            return action.cart;
+            const setCart = action.cart;
+            console.log(setCart);
+            return setCart;
         case "REMOVE":
-            let newCart = [...state];
+            const newCart = [...state];
             newCart.splice(action.index, 1);
+            console.log(newCart);
             return newCart;
         default:
             console.log("Error Reducer");

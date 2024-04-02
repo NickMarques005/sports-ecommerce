@@ -23,7 +23,7 @@ function MainPage() {
         const fetchProductsData = async () => {
 
             const response = await GetProducts();
-            if (response) {
+            if (response.success) {
                 const { data, message } = response;
                 console.log(data);
                 const productsArray = Object.values(data.products);
