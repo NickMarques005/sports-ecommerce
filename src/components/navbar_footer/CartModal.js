@@ -65,8 +65,6 @@ function CartModal(props) {
         setTotalConditionPrice(CalcPrices.toStringPrice(calculatedTotalPrice / totalInstallments));
         setTotalCondition(totalInstallments);
         console.log(calculatedTotalPrice);
-
-
     };
 
     useEffect(() => {

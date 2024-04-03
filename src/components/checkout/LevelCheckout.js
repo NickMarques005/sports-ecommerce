@@ -5,12 +5,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import HandleLevelCheckoutPage from '../../utils/CheckoutHandling';
 import { UseAuth } from '../../contexts/AuthContext';
 import { VerifyToken } from '../../services/AuthenticationService';
+import { UseIdentification } from '../../contexts/IdentificationContext';
 
 
 function LevelCheckout(props) {
 
     const { authToken } = UseAuth();
     let cartData = useCart();
+    const { identificationData } = UseIdentification();
     let navigate = useNavigate();
 
     return (
@@ -24,7 +26,7 @@ function LevelCheckout(props) {
                 <span>Identificação</span>
             </div>
             <div className={`level_checkout_template ${props.page == "pagamento" ? "next" : "off"}`}>
-                <button className="level_number_div" onClick={() => { HandleLevelCheckoutPage(navigate, "pagamento", props.page, {cartDataLength: cartData.length}, authToken) }}><span>3</span></button>
+                <button className="level_number_div" onClick={() => { HandleLevelCheckoutPage(navigate, "pagamento", props.page, {cartDataLength: cartData.length, identificationData: identificationData}, authToken) }}><span>3</span></button>
                 <span>Pagamento</span>
             </div>
         </div>

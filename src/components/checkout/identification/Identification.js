@@ -6,12 +6,15 @@ import { FormatCep, FormatCpf, FormatPhone } from '../../../utils/DataFormats';
 import { UseIdentification } from '../../../contexts/IdentificationContext';
 import { validateCep, validateCpf, validateEmail, validateName, validatePhone } from '../../../utils/Validation';
 import { UseAuth } from '../../../contexts/AuthContext';
+import HandleLevelCheckoutPage from '../../../utils/CheckoutHandling';
+import { useCart } from '../../../contexts/CartContext';
 
 function Identification(props) {
 
     let navigate = useNavigate();
-    const { identificationData, setIdentificationData } = UseIdentification();
-    const { userData } = UseAuth();
+    let { identificationData, setIdentificationData } = UseIdentification();
+    const { userData, authToken } = UseAuth();
+    let cartData = useCart();
 
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessages, setErrorMessages] = useState({});
@@ -117,6 +120,8 @@ function Identification(props) {
         const isFormStillValid = ValidateAllFields(identification);
         if (isFormStillValid) {
             console.log("DADOS VÁLIDOS: ", identification);
+            console.log(cartData);
+            HandleLevelCheckoutPage(navigate, "pagamento", props.page, {cartDataLength: cartData.length, identificationData: identificationData}, authToken)
         }
         else{
             window.scrollTo({top: 0, behavior: 'smooth'});

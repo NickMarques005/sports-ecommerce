@@ -15,57 +15,56 @@ const Checkout = () => {
     const location = useLocation();
 
     const [groupedCartData, setGroupedCartData] = useState({});
-    const [totalPrice, setTotalPrice] = useState(null);
+    const [subTotal, setSubTotal] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
     const [totalCondition, setTotalCondition] = useState(null);
-    const [totalConditionPrice, setTotalConditionPrice] = useState(null);
+    const [totalConditionPrice, setTotalConditionPrice] = useState(0);
+    const [discountValue, setDiscountValue] = useState(0);
 
-    console.log(cartData);
 
     const calculateTotalValues = () => {
-        let calculatedTotalPrice = 0;
+        let tempSubTotal = 0;
+        let tempTotalPrice = 0;
+        let tempDiscountValue = 0;
+
         let calculatedTotalCondition = 0;
         let calculatedTotalConditionPrice = 0;
         const maxInstallments = 10;
-        let totalInstallments = 0;
 
-        console.log("PRODUTOS GROUPED CART DATA: ", groupedCartData);
+        Object.values(groupedCartData).forEach(item => {
+            const initPrice = parseFloat(item.init_price.replace(",", "."));
+            const finalPrice = parseFloat(item.final_price.replace(",", "."));
+            const condition = item.final_condition;
+            const quantity = item.count;
 
-        Object.values(groupedCartData).forEach(data => {
-            console.log(data.final_price);
-            const price = parseFloat(data.final_price.replace(",", "."));
-            const condition = data.final_condition;
-            if (data.count) {
-                if (data.count > 1) {
-                    let updatedPrice = 0;
-                    let updatedCondition = 0;
-                    console.log("DATA COUNT: ", data.count);
-                    updatedPrice = CalcPrices.calcTotalPrice(updatedPrice, (price * data.count));
-                    calculatedTotalPrice = calculatedTotalPrice + updatedPrice;
-                    if (data.final_condition) {
-                        updatedCondition = CalcPrices.calcTotalConditionPrice(calculatedTotalCondition, (condition * data.count));
-                        calculatedTotalCondition = updatedCondition;
-                    }
+            tempSubTotal += initPrice * quantity;
+            tempTotalPrice += finalPrice * quantity;
 
-                }
-                else {
-                    let first_condition = 0;
-                    calculatedTotalPrice = CalcPrices.calcTotalPrice(calculatedTotalPrice, price);
-                    if (data.final_condition) {
-                        first_condition = CalcPrices.calcTotalConditionPrice(calculatedTotalCondition, condition);
-                        calculatedTotalCondition = first_condition;
-                        console.log("CONDITION 1: ", condition);
-                    }
-                }
-                console.log("TOTAL PRICE: ", calculatedTotalPrice);
-                totalInstallments = Math.min(calculatedTotalCondition, maxInstallments);
+            if (condition) {
+                calculatedTotalCondition += condition * quantity;
             }
         });
 
-        setTotalPrice(CalcPrices.toStringPrice(calculatedTotalPrice));
-        setTotalConditionPrice(CalcPrices.toStringPrice(calculatedTotalPrice / totalInstallments));
-        setTotalCondition(totalInstallments);
+        tempDiscountValue = tempSubTotal - tempTotalPrice;
+
+        let totalInstallments = Math.min(calculatedTotalCondition, maxInstallments);
+        calculatedTotalConditionPrice = tempTotalPrice / totalInstallments;
+
+        setSubTotal(tempSubTotal.toFixed(2));
+        setTotalPrice(tempTotalPrice.toFixed(2));
+        setDiscountValue(tempDiscountValue.toFixed(2));
+
+        if (totalInstallments !== 0);
+        {
+            setTotalCondition(totalInstallments);
+            setTotalConditionPrice(calculatedTotalConditionPrice.toFixed(2));
+        }
 
     };
+
+    useEffect(() => {
+        calculateTotalValues();
+    }, [groupedCartData]);
 
     useEffect(() => {
         const groupedData = cartData.reduce((groups, data) => {
@@ -83,39 +82,35 @@ const Checkout = () => {
         setGroupedCartData(groupedData);
     }, [cartData]);
 
-    useEffect(() => {
-        calculateTotalValues();
-    }, [groupedCartData]);
-
     const handleCheckout = () => {
         const currentRoute = window.location.pathname;
         switch (currentRoute) {
             case "/compra/carrinho":
                 return (
-                    <Cart group_data={groupedCartData} page={currentCheckoutPage}/>
+                    <Cart group_data={groupedCartData} page={currentCheckoutPage} prices={{subTotal, totalPrice, totalCondition, totalConditionPrice, discountValue}} />
                 )
 
             case "/compra/identifica%C3%A7%C3%A3o":
                 return (
-                    <Identification group_data={groupedCartData} page={currentCheckoutPage}/>
+                    <Identification group_data={groupedCartData} page={currentCheckoutPage} />
                 )
 
             case "/compra/pagamento":
                 return (
-                    <Payment group_data={groupedCartData} page={currentCheckoutPage}/>
+                    <Payment group_data={groupedCartData} page={currentCheckoutPage} prices={{subTotal, totalPrice, totalCondition, totalConditionPrice, discountValue}} />
                 )
         }
     }
 
     useEffect(() => {
         const path = location.pathname;
-        if(path.includes("/compra/carrinho")) {
+        if (path.includes("/compra/carrinho")) {
             setCurrentCheckoutPage("carrinho");
         }
-        else if(path.includes("/compra/identifica%C3%A7%C3%A3o")){
+        else if (path.includes("/compra/identifica%C3%A7%C3%A3o")) {
             setCurrentCheckoutPage("identificação");
         }
-        else if(path.includes("/compra/pagamento")){
+        else if (path.includes("/compra/pagamento")) {
             setCurrentCheckoutPage("pagamento");
         }
 
