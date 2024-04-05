@@ -19,3 +19,30 @@ export const validateCep = (cep) => {
     const regex = /^\d{5}\-\d{3}$/;
     return regex.test(cep);
 };
+
+export const HandleIdentityValidation = (data) => {
+    let errors = {};
+    let success = true;
+
+    if (!validateName(data.name)) {
+        errors.name = 'Nome inválido';
+        success = false;
+    }
+    if (!validateEmail(data.email)) {
+        errors.email = 'E-mail inválido';
+        success = false;
+    }
+    if (!validatePhone(data.telefone)) {
+        errors.telefone = 'Telefone inválido';
+        success = false;
+    }
+    if (!validateCpf(data.cpf)) {
+        errors.cpf = 'CPF inválido';
+        success = false;
+    }
+    if (!validateCep(data.cep_location.cep_number)) {
+        errors.cep = 'CEP inválido';
+        success = false;
+    }
+    return { success, errors };
+}

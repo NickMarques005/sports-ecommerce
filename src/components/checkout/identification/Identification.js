@@ -121,7 +121,7 @@ function Identification(props) {
         if (isFormStillValid) {
             console.log("DADOS VÁLIDOS: ", identification);
             console.log(cartData);
-            HandleLevelCheckoutPage(navigate, "pagamento", props.page, {cartDataLength: cartData.length, identificationData: identificationData}, authToken)
+            HandleLevelCheckoutPage(navigate, "pagamento", props.page, {cartDataLength: cartData.length, identificationData: identification}, authToken)
         }
         else{
             window.scrollTo({top: 0, behavior: 'smooth'});

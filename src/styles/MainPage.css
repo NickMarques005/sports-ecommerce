@@ -26,7 +26,6 @@ h3{
     min-height: 180vh;
     padding: 6vw;
     gap: 50px;
-    
 }
 
 .products_presentation_main_div .products_template_div{
@@ -46,6 +45,7 @@ h3{
     justify-content: center;
     max-width: 65%;
     z-index: 2;
+    height: 100%;
 }
 
 .title_div{
@@ -62,11 +62,11 @@ h3{
 
 .carousel_item{
     transition: 0.3s ease;
-    
 }
 
 .products_template_div{
     width: 25rem;
+    height: 100%;
 }
 
 .ilustration_product_template_div {

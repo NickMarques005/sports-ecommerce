@@ -1,4 +1,5 @@
 import { VerifyToken } from "../services/AuthenticationService";
+import { HandleIdentityValidation } from "./Validation";
 
 const VerifyingAuthorization = async (token) => {
     const response = await VerifyToken(token);
@@ -26,16 +27,18 @@ const HandleLevelCheckoutPage = async (navigate, nextPage, currentPage, checkout
             return;
         }
 
-        if(checkoutData.cartDataLength === 0)
-        {
+        if (checkoutData.cartDataLength === 0) {
             navigate("/");
             return
         }
 
-        if( nextPage === "pagamento" && !checkoutData.identificationData)
-        {
-            console.log("Completar todos os dados de identificação para continuar");
-            return;
+        if (nextPage === "pagamento") {
+            const { success, errors } = HandleIdentityValidation(checkoutData.identificationData);
+            if (!success) {
+                console.log("ERROS: ", errors);
+                console.log("Completar todos os dados de identificação corretamente para continuar");
+                return { errors: errors};
+            }
         }
     }
 

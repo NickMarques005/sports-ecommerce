@@ -6,12 +6,10 @@ import { IoCart, IoMenuOutline, IoHeart } from 'react-icons/io5';
 import Sports_Logo from '../../../imgs/Sports.png';
 import Account_Img from '../../../imgs/user.png';
 import DropDownItem from '../../dropdown_menu/DropDownItem';
-import option_Images from '../../../utils/ImportOptionsImgs';
 import { useSearch } from '../../../contexts/SearchContext';
 import { useCart } from '../../../contexts/CartContext';
 import CartModal from '../CartModal';
 import CartPageFunc from '../../../utils/CheckoutHandling';
-import { URL } from '../../../App';
 import { useDevice } from '../../../contexts/DeviceContext';
 import SearchBar from '../../search_bar/SearchBar';
 import SearchResults from '../../search_bar/SearchResults';
@@ -40,7 +38,6 @@ export default function Navbar() {
 
   const { authToken, userData, isLogged} = UseAuth();
   const account_options = Options();
-  console.log(account_options)
 
   const { isMobile } = useDevice();
   const [openSearchMobile, setOpenSearchMobile] = useState(false);

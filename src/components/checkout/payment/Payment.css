@@ -1,7 +1,7 @@
 .payment_div {
     width: 100%;
     min-height: 100vh;
-    padding-block-start: 80px;
+    padding-block: 35px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -10,10 +10,12 @@
     background: #f5f5fa;
 }
 
-.paymentOptions_div {
+.paymentProducts_div {
+    position: relative;
     display: flex;
-    justify-content: space-around;
-    width: 90%;
+    justify-content: flex-start;
+    width: 70%;
+    max-height: 100px;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -21,23 +23,59 @@
     background: white;
 }
 
-.paymentOption_template {
+.paymentProducts_div ul{
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    cursor: pointer;
+    flex-direction: row;
+    height: 100%;
+    overflow: scroll;
 }
 
-.payment_option {
-    width: 60px;
-    height: 60px;
-    background: #eee;
+.paymentProduct_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.paymentProduct_img {
+    margin-right: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    height: 100px;
+}
+
+.paymentProduct_count {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #5e4fbe;
+    color: white;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 16px;
+}
+
+.paymentProducts_cartIcon_div {
+    position: absolute;
+    right: 1.5vw;
+    bottom: -15px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(#3522ae, #333);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartIcon {
+    width: 40%;
+    height: 40%;
+    color: white;
 }
 
 .payment_option_info {
@@ -47,7 +85,9 @@
 }
 
 .paymentSummary_div {
-    width: 90%;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -61,37 +101,58 @@
 .paymentSummary_info_div {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-block-start: 10vh;
+    padding-inline: 6vw;
+    gap: 15px;
 }
 
 .paymentSummary_info {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
 }
 
 .paymentSummary_total_div {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-block: 20px;
     padding-top: 20px;
     border-top: 1px solid #eee;
 }
 
+.paymentSummary_total_div h3 {
+    color: #3522ae;
+    font-size: 20px;
+}
+
+.paymentSummary_totalInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .paymentSummary_totalInfo span {
     font-size: 20px;
-    color: #120857;
+    color: #3522ae;
     font-weight: bold;
+    font-style: oblique;
+}
+
+.paymentSummary_totalInfo p {
+    color: rgb(31, 46, 121);
+    opacity: 0.8;
 }
 
 .paymentSummary_finish button {
     width: 100%;
-    padding: 15px;
+    height: 3.5rem;
     margin-top: 20px;
     background-color: #3a2e85;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .paymentSummary_finish button:hover {

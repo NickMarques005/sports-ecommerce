@@ -18,7 +18,7 @@ function Card(props) {
 
     return (
         <div className={`item ${props.carousel ? "carousel" : ""}`}>
-            <a className={`link_item ${props.carousel ? "carousel" : ""}`} target="_blank" href={`${props.productId}`} onClick={() => {handleBuyProduct(props.productId)}}>
+            <a className={`link_item ${props.carousel ? "carousel" : ""}`} target="_blank" href={`/product/${props.productId}`} onClick={() => {handleBuyProduct(props.productId)}}>
                 <div className="product_image">
                     {hasDiscount ? <div className="discount_div">
                         <label className="discount_label">

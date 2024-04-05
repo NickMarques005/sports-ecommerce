@@ -6,7 +6,7 @@ function SearchMiniCard(props) {
 
   return (
     <div className="searchitem">
-      <a className="link_searchitem" href={`/${props.searchProductId}`}>
+      <a className="link_searchitem" href={`/product/${props.searchProductId}`}>
         <div className="searchproduct_img">
           <img src={`/product_imgs/${props.searchProductType[0].imgs[0]}`} alt="searchitem-img" />
         </div>

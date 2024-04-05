@@ -16,3 +16,7 @@ export const VerifyToken = async (token) => {
     return MakeRequest({ endpoint: '/user/verify-token', method: 'POST', token});
 }
 
+export const PurchaseItems = async (items, token) => {
+    return MakeRequest({endpoint: '/user/purchase-items', method: 'POST', data: items, token })
+}
+

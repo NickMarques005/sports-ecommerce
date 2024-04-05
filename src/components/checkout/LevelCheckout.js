@@ -4,9 +4,7 @@ import { useCart } from '../../contexts/CartContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import HandleLevelCheckoutPage from '../../utils/CheckoutHandling';
 import { UseAuth } from '../../contexts/AuthContext';
-import { VerifyToken } from '../../services/AuthenticationService';
 import { UseIdentification } from '../../contexts/IdentificationContext';
-
 
 function LevelCheckout(props) {
 

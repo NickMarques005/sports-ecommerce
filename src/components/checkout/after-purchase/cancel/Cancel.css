@@ -1,0 +1,30 @@
+.cancel_div {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+
+.cancel_container_info{
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(#f5f5fa, #6a5cc2);
+    border-radius: 10px;
+}
+
+.cancel_container_info h1 {
+    color: #3522ae;
+    font-size: 1.5rem; 
+    margin: 20px 0; 
+}
+
+.cancel_container_info p {
+    color: #ffffff;
+    opacity: 0.8;
+    font-size: 1rem; 
+}

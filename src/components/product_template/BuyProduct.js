@@ -9,8 +9,6 @@ import { GetProductById } from '../../services/ProductsService';
 function BuyProduct() {
 
     let dispatch = useDispatchCart();
-    let data = useCart();
-
 
     const [buyProductData, setBuyProductData] = useState(null);
     const [currentTypeProduct, setCurrentTypeProduct] = useState(0);
@@ -49,8 +47,8 @@ function BuyProduct() {
             if (buyProductData && buyProductData.types && buyProductData.types.length > currentTypeProduct) {
                 const currentType = buyProductData.types[currentTypeProduct];
                 const imgsTypeArray = currentType.imgs ? currentType.imgs : [];
-                console.log("CURRENT TYPE: ");
-                console.log(currentType);
+                console.log("CURRENT TYPE: ", currentType);
+                console.log("IMAGENS: ", imgsTypeArray);
                 setCurrentTypedata(currentType);
                 setCurrentImgsData(imgsTypeArray);
             }
@@ -60,8 +58,7 @@ function BuyProduct() {
 
     const handleChangeType = (type) => {
         if (currentTypeProduct !== type) {
-            if(sizeProduct)
-            {
+            if (sizeProduct) {
                 setSizeProduct(null);
             }
             setCurrentTypeProduct(type);
@@ -76,12 +73,11 @@ function BuyProduct() {
     }
 
     const handleSizeProduct = (size, quantity) => {
-        if(sizeProduct === size)
-        {
+        if (sizeProduct === size) {
             setSizeProduct(null);
             setQuantityProduct(null);
         }
-        else{
+        else {
             setSizeProduct(size);
             setQuantityProduct(quantity);
         }
@@ -92,8 +88,7 @@ function BuyProduct() {
     const handleAddItemCart = async () => {
         if (sizeProduct != null) {
             console.log("EXECUTAR ADD CART");
-            if (buyProductData && currentTypeData) 
-            {
+            if (buyProductData && currentTypeData) {
                 const cartItem = {
                     id: buyProductData._id,
                     name: buyProductData.name,
@@ -107,7 +102,7 @@ function BuyProduct() {
                     quantity: quantityProduct
                 }
 
-                await dispatch({ type: "ADD", item: cartItem});
+                await dispatch({ type: "ADD", item: cartItem });
                 console.log(cartItem);
 
                 const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -116,7 +111,7 @@ function BuyProduct() {
                 console.log(updatedCart);
             }
         }
-        else{
+        else {
             console.log("ESCOLHA UM SIZE!");
         }
     }
@@ -130,7 +125,7 @@ function BuyProduct() {
                         {
                             currentTypeData ?
                                 <div className="buyProduct_imgMain">
-                                    <img src={`/product_imgs/${currentImgsData[currentTypeProduct]}`} alt="product_img" />
+                                    <img src={`/product_imgs/${currentImgsData[0]}`} alt="product_img" />
                                 </div>
                                 : ""
                         }
@@ -226,7 +221,7 @@ function BuyProduct() {
 
                                         return (
                                             <li onClick={() => handleChangeType(index)} key={index}>
-                                                <img className="itemType_img" src={`/product_imgs/${type.imgs[index]}`} alt={`product_img_${index}`} />
+                                                <img className="itemType_img" src={`/product_imgs/${type.imgs[0]}`} alt={`product_img_${index}`} />
                                             </li>
                                         )
                                     })
