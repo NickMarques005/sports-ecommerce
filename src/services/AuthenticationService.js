@@ -16,7 +16,15 @@ export const VerifyToken = async (token) => {
     return MakeRequest({ endpoint: '/user/verify-token', method: 'POST', token});
 }
 
-export const PurchaseItems = async (items, token) => {
-    return MakeRequest({endpoint: '/user/purchase-items', method: 'POST', data: items, token })
+export const PurchaseItems = async (items, identityData, token) => {
+    return MakeRequest({endpoint: '/user/purchase-items', method: 'POST', data: {items, identityData}, token });
+}
+
+export const CreateOrder = async (items, identityData, token) => {
+    return MakeRequest({endpoint: '/user/create-purchase-order', method: 'POST', data: {items, identityData}, token});
+}
+
+export const GetOrders = async (token) => {
+    return MakeRequest({endpoint: '/user/get-purchase-orders', method: 'GET', token});
 }
 

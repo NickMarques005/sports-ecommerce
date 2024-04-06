@@ -18,7 +18,7 @@ function Payment(props) {
   const { identificationData } = UseIdentification();
   const [paymentLoading, setPaymentLoading] = useState(false);
 
-  const Purchase = async (cart, identity) => {
+  const Purchase = async (cart, identityData) => {
 
     const items = Object.values(cart).map(product => ({
       id: product.id,
@@ -35,7 +35,7 @@ function Payment(props) {
 
     setPaymentLoading(true);
 
-    const response = await PurchaseItems({ items }, authToken);
+    const response = await PurchaseItems(items, identityData, authToken);
 
     if (response && response.success) {
       const sessionId = response.data.id;
@@ -96,7 +96,7 @@ function Payment(props) {
 
           <div className="paymentSummary_info">
             <span>Frete</span>
-            <span>R$ { }</span>
+            <span>R$ {`0.00`}</span>
           </div>
 
           <div className="paymentSummary_info">

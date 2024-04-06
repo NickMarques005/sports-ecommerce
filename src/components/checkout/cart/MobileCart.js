@@ -30,7 +30,7 @@ function MobileCart(props) {
                             <button className="cartItem_buttonPlus" onClick={() => props.handleIncrement(data)}>+</button>
                         </div>
                         <div className="cartItem_price">
-                            <span>R${data.final_price}</span>
+                            <span>R${data.init_price}</span>
                         </div>
                         <div className="cartItem_delete">
                             <IoTrash className="cartItem_deleteIcon" onClick={() => { props.handleDeleteItems(data.id, data.size, data.color) }} />
