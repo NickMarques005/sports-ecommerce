@@ -124,15 +124,6 @@ h3{
         
     }
 
-    h3{
-        color: white;
-        background-color: #5139be;
-        padding: 5px 20px 5px 10px;
-        border-top-right-radius: 15px;
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 10px 1px;
-        font-size: 28px;
-    }
-
     .title_div{
         margin-inline: 10px;
     }

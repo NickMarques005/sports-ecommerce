@@ -1,0 +1,94 @@
+.pageOrders_div{
+    display: flex;
+    width: 100%;
+    padding-block-start: 80px;
+    margin: 0px auto;
+    justify-content: center;
+}
+
+.orders_container {
+    width: 80%;
+    padding: 20px 45px 20px;
+    box-sizing: border-box;
+    margin-block: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient( rgb(241, 239, 249), rgb(220, 217, 238)); 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.order_title_div{
+    margin-block: 20px;
+}
+
+.order_title_div h2{
+    font-size: 4.6vh;
+}
+
+.orders_list{
+    margin-block: 20px;
+    width: 100%;
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.2);
+}
+
+.orders_table {
+    width: 100%;
+    border-collapse: collapse; 
+    background-color: #fff; 
+}
+
+.orders_table th,
+.orders_table td {
+    padding: 12px 15px; 
+    text-align: center; 
+    border-bottom: 1px solid #ddd; 
+}
+
+.orders_table th {
+    background: linear-gradient(rgb(52, 23, 147), rgb(45, 29, 124), rgb(28, 29, 100));  
+    color: #ffffff; 
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
+}
+
+.order_card{
+    
+}
+
+.order_card:hover {
+    cursor: pointer;
+}
+
+.orders_table td{
+    color:#3a3080;
+    font-weight:600;
+    font-style:oblique;
+}
+
+.order_header {
+    background-color: #564b9c; /* Cor de fundo do cabeçalho de cada pedido, ajuste conforme desejado */
+    color: white;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.order_content {
+    padding: 20px;
+}
+
+.order_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee; 
+}
+
+.order_item:last-child {
+    border-bottom: none; 
+}
+
+.order_item_name, .order_item_price {
+    font-size: 16px; 
+}

@@ -17,6 +17,7 @@ import Route_Compra from "../screens/secondary_route_screens/Route_Compra";
 import { IdentificationProvider } from "../contexts/IdentificationContext";
 import Cancel from "../components/checkout/after-purchase/cancel/Cancel";
 import Success from "../components/checkout/after-purchase/success/Success";
+import Route_Orders from "../screens/secondary_route_screens/Route_Orders";
 
 const MainRouter = () => {
     return (
@@ -41,8 +42,9 @@ const MainRouter = () => {
                                     <Route path="/compra/carrinho" element={<Route_Compra />} />
                                     <Route path="/compra/identificação" element={<Route_Compra />} />
                                     <Route path="/compra/pagamento" element={<Route_Compra />} />
-                                    <Route path="/cancel-purchase" element={<Cancel/>} />
-                                    <Route path="/success-purchase" element={<Success/>} />
+                                    <Route path="/cancel-purchase" element={<Cancel />} />
+                                    <Route path="/success-purchase" element={<Success />} />
+                                    <Route path="/user/meus-pedidos" element={<Route_Orders />} />
                                 </Routes>
                             </BrowserRouter>
                         </IdentificationProvider>

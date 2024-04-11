@@ -1,16 +1,5 @@
-import { VerifyToken } from "../services/AuthenticationService";
 import { HandleIdentityValidation } from "./Validation";
-
-const VerifyingAuthorization = async (token) => {
-    const response = await VerifyToken(token);
-    if (response.success) {
-        console.log("Usuário autorizado: ", response);
-        return true;
-    }
-
-    console.log("Usuário não autorizado");
-    return false;
-}
+import { VerifyingAuthorization } from "./Authorization";
 
 const HandleLevelCheckoutPage = async (navigate, nextPage, currentPage, checkoutData, token) => {
 
