@@ -11,37 +11,55 @@ import { useNavigate } from 'react-router-dom';
 const Route_Orders = ({ }) => {
 
     const [orders, setOrders] = useState([]);
-    const { authToken } =  UseAuth();
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [noOrders, SetNoOrders] = useState(false);
+    const { authToken } = UseAuth();
 
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        const fetchOrders = async (token) => {
-            try{
-                const response = await GetOrders(token);
-                if(response && response.data)
-                {
-                    const ordersData = response.data;
-                    console.log("Pedidos: ", ordersData);
-                    setOrders(ordersData);
-                }
-            }
-            catch (err)
-            {
-                console.error("Erro ao buscar pedidos: ", err);
-            }
-        }
-
-        const isAuthorized = VerifyingAuthorization(authToken);
-        if(!isAuthorized)
-        {
-            navigate("/login");
+        if (authToken === undefined) {
+            console.log("Token ainda não disponível.");
             return;
         }
-        else{
-            fetchOrders(authToken);
-        }
+
+        console.log("Autorização!!");
+
+        const fetchOrders = async (token) => {
+            try {
+                const response = await GetOrders(token);
+                if (response && response.data) {
+                    const ordersData = response.data;
+                    console.log("Pedidos: ", ordersData);
+                    if(ordersData && ordersData.length === 0)
+                    {
+                        SetNoOrders(true);
+                        return;
+                    }
+                    setOrders(ordersData);
+                    return;
+                }
+
+                SetNoOrders(true);
+            } catch (err) {
+                console.error("Erro ao buscar pedidos: ", err);
+                SetNoOrders(true);
+            }
+        };
+
+        const OrderAuth = async (token) => {
+            const isAuthorized = await VerifyingAuthorization(token);
+            console.log(isAuthorized);
+            if (!isAuthorized) {
+                navigate('/login');
+                return;
+            } else {
+                setIsAuthorized(true);
+                fetchOrders(token);
+            }
+        };
+
+        OrderAuth(authToken);
 
     }, [authToken]);
 
@@ -49,7 +67,7 @@ const Route_Orders = ({ }) => {
     return (
         <div className="product_container_main">
             <Navbar />
-            <Orders orders={orders}/>
+            <Orders noOrders={noOrders} isAuthorized={isAuthorized} orders={orders} />
             <Footer />
         </div>
     )

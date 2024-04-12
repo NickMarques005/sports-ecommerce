@@ -185,13 +185,19 @@ function SignUpForm() {
         setFormLoading(true);
 
         const response = await SignUpUser(credentials)
-        if (response.success) {
+        if (response && response.success) {
             const { message } = response;
             console.log(message);
             navigate('/login');
         }
         else {
-            setResponseError(response.error)
+            if(!response)
+            {
+                setResponseError("Problema de conexão com o servidor");
+            }
+            else{
+                setResponseError(response.error)
+            }
         }
 
         setFormLoading(false);

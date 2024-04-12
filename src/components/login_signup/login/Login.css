@@ -25,6 +25,7 @@
 }
 
 .login_main_div{
+    position: relative;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -35,6 +36,33 @@
     padding-block: 50px;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 5px 0px, rgba(0, 0, 0, 0.12) 0px 3px 5px 0px, rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
+}
+
+.test_login_info {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    bottom: 10px;   
+    right: 10px; 
+    background-color: rgba(227, 219, 249, 0.8); 
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+.test_login_info span{
+    font-weight: bold;
+    color:#3b0396;
+    
+}
+
+.test_login_info p{
+    color: #9172c3;
+    font-style: oblique;
 }
 
 .title_login_div{
@@ -120,6 +148,26 @@
     border:none;
     outline: none;
     font-size: 16px;
+}
+
+.input_div_login input::placeholder { 
+    color:rgb(95, 60, 184);
+    opacity: 0.5;
+}
+
+::-webkit-input-placeholder { 
+    color:rgb(95, 60, 184);
+    opacity: 0.5;
+}
+
+::-moz-placeholder { 
+    color:rgb(95, 60, 184);
+    opacity: 0.5;
+}
+
+:-ms-input-placeholder { 
+    color:rgb(95, 60, 184);
+    opacity: 0.5;
 }
 
 .input_div_login label{
@@ -234,6 +282,12 @@
 
     .form_login {
         max-width: 75vw;
+    }
+
+    .test_login_info{
+        width: 100%;
+        bottom: 0px;
+        right: 0px;
     }
 }
 

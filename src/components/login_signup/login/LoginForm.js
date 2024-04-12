@@ -20,10 +20,12 @@ function LoginForm() {
     const [isEmailValid, setIsEmailValid] = useState(true);
 
     const [passwordFocus, setpasswordFocus] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [isPasswordValid, setIsPasswordValid] = useState(true);
 
     const passwordInputRef = useRef(null);
+    const emailInputRef = useRef(null);
 
     const [loginCredentials, setLoginCredentials] = useState({ email: "", password: "" });
 
@@ -34,6 +36,18 @@ function LoginForm() {
         passwordInputRef.current.focus();
         setShowPassword((prev_password) => !prev_password);
     };
+
+    const handleEmailFocus = () => {
+        setEmailFocus(true);
+    };
+
+    const handleEmailBlur = () => {
+        setEmailFocus(false);
+    }
+
+    const handlePassFocus = () => {
+        setpasswordFocus(true);
+    }
 
     const validateEmail = (email) => {
         const email_format = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -77,7 +91,7 @@ function LoginForm() {
         console.log(loginCredentials);
         setFormLoading(true);
         const response = await LoginUser(loginCredentials)
-        if (response.success) {
+        if (response && response.success) {
             const { data, message } = response;
             console.log(data);
             console.log(message);
@@ -86,8 +100,14 @@ function LoginForm() {
             setFormLoading(false);
         }
         else {
-            console.log("RESPONSE ERROR: ", response);
-            setResponseError(response.error);
+            if (!response) {
+                setResponseError("Problema de conexão com o servidor");
+            }
+            else {
+                console.log("RESPONSE ERROR: ", response);
+                setResponseError(response.error);
+            }
+
         }
 
         setFormLoading(false);
@@ -99,11 +119,15 @@ function LoginForm() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    },[location.pathname]);
+    }, [location.pathname]);
 
 
     return (
         <div className="form_div login">
+            <div className="test_login_info">
+                <span>Login para testes: </span>
+                <p>E-mail: teste123@gmail.com Password: Teste@123</p>
+            </div>
             {responseError ?
                 <div className="error_message">
                     <span>
@@ -111,6 +135,7 @@ function LoginForm() {
                     </span>
                 </div> : ""}
             <div className="login_main_div">
+
                 <div className="title_login_div">
                     <h2 className="h2_loginform"><label className="h2_content1">Entrar</label><label className="h2_content2"> com sua conta Sports</label></h2>
 
@@ -125,14 +150,18 @@ function LoginForm() {
                                 <span className="icon"><img src={Email_icon} alt="E-mail Icon" /></span>
                                 <input type="email"
                                     required
+                                    placeholder={emailFocus ? "teste123@gmail.com" : ""}
+
                                     name="email"
                                     maxLength={50}
                                     value={loginCredentials.email}
                                     onChange={(e) => {
                                         onChangeInputData(e);
                                     }}
+                                    onFocus={handleEmailFocus}
                                     onBlur={(e) => {
                                         handleInputsValidation(e.target.name, e.target.value);
+                                        handleEmailBlur();
                                     }}
 
                                 />
@@ -151,6 +180,7 @@ function LoginForm() {
                                 </span>
                                 <input type={showPassword ? 'text' : 'password'}
                                     required
+                                    placeholder={passwordFocus ? "Teste@123" : ""}
                                     maxLength={60}
                                     name="password"
                                     ref={passwordInputRef}
@@ -159,7 +189,7 @@ function LoginForm() {
                                             onChangeInputData(e);
                                         }
                                     }
-                                    onFocus={() => setpasswordFocus(true)}
+                                    onFocus={() => handlePassFocus()}
                                     onBlur={(e) => {
                                         handleInputsValidation(e.target.name, e.target.value);
                                         if (!passwordInputRef.current.value.trim()) {

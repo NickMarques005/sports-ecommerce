@@ -36,14 +36,14 @@ export default function Navbar() {
     }
   }
 
-  const { authToken, userData, isLogged} = UseAuth();
+  const { authToken, userData, isLogged } = UseAuth();
   const account_options = Options();
 
   const { isMobile } = useDevice();
   const [openSearchMobile, setOpenSearchMobile] = useState(false);
 
   const [search, setSearch] = useState('');
-  const [isSearching, setIsSearching]= useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [resultsData, setResultsData] = useState([]);
@@ -119,6 +119,9 @@ export default function Navbar() {
   useEffect(() => {
     if (!search) {
       setInputWorking(false);
+      setSuggestionsData([]);
+      setResultsData([]);
+      return console.log("Input vazio!");
     }
 
     handleChangeSearch(search);
@@ -126,18 +129,12 @@ export default function Navbar() {
   }, [search]);
 
   const handleChangeSearch = (input_data) => {
-    if(input_data === "")
-    {
-      setSuggestionsData([]);
-      setResultsData([]);
-      return console.log("Input Vazio");
-    }
 
     setInputChange(input_data);
     setIsSearching(true);
     FilterProducts(input_data)
       .then((results) => {
-        const { products, suggestions} = results.data;
+        const { products, suggestions } = results.data;
         console.log(results);
         setResultsData(products);
         setSuggestionsData(suggestions);
@@ -222,8 +219,8 @@ export default function Navbar() {
 
               {
                 openSearchMobile ?
-                <MobileSearch isSearching={isSearching} search={search} resultsData={resultsData} suggestionsData={suggestionsData} handleChangeSearchInput={handleChangeSearchInput} handleSearchKeyPress={handleSearchKeyPress} handleSuggestionClick={handleSuggestionClick} inputWorking={inputWorking} />
-                : ""
+                  <MobileSearch isSearching={isSearching} search={search} resultsData={resultsData} suggestionsData={suggestionsData} handleChangeSearchInput={handleChangeSearchInput} handleSearchKeyPress={handleSearchKeyPress} handleSuggestionClick={handleSuggestionClick} inputWorking={inputWorking} />
+                  : ""
               }
               <Menu menuOn={menuOpen} checkoutCart={checkout} onClose={interactMenu} userData={userData ? userData : ""} isLogged={isLogged} handleLogout={handleLogout} />
             </>
@@ -268,10 +265,10 @@ export default function Navbar() {
                     </button>
                     {
                       isMobile ?
-                      ""
-                      :
-                      <CartModal cart_view={cartView} mouseEvents={handleCartModalMouseEvents} />
-                      }
+                        ""
+                        :
+                        <CartModal cart_view={cartView} mouseEvents={handleCartModalMouseEvents} />
+                    }
                   </div>
                   <div className="login_section">
                     <img src={Account_Img} className="account_img" ref={imgAccountRef} alt={"account-img"} />
@@ -309,7 +306,7 @@ export default function Navbar() {
                               !isLogged && option.id === 1 || !isLogged && option.id === 6 ? ""
                                 : (
                                   <li key={isLogged ? option.id : index}>
-                                    <DropDownItem link={!authToken && option.id === 2 ? option.linkNoAuth : option.link} img={option.img} name={option.name} altImg={option.altImg} pointer={option.pointer} option_action={option.action ? option.action : null}/>
+                                    <DropDownItem link={!authToken && option.id === 2 ? option.linkNoAuth : option.link} img={option.img} name={option.name} altImg={option.altImg} pointer={option.pointer} option_action={option.action ? option.action : null} />
                                   </li>
                                 )
                       )

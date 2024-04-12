@@ -4,30 +4,33 @@ import { GetUserData } from '../services/AuthenticationService';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [authToken, setAuthToken] = useState(null);
+    const [authToken, setAuthToken] = useState(undefined);
     const [userData, setUserData] = useState(null);
     const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
+        const getToken = async () => {
+            const token = await localStorage.getItem("authToken") || await sessionStorage.getItem("authToken");
+            console.log("Verificação de Token em localStorage...");
+            if (token) {
+                setAuthToken(token);
+                return;
+            }
 
-        const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
-        console.log("Verificação de Token em localStorage...");
-        if (token) {
-            setAuthToken(token);
-            return;
+            setAuthToken(null);
+            console.log("Sem token de autenticação");
         }
-        
-        console.log("Sem token de autenticação");
 
+        getToken();
+        
     }, []);
 
-    useEffect (() => {
-        if(userData)
-        {
+    useEffect(() => {
+        if (userData) {
             return console.log("Usuário já autenticado!!");
         }
 
-        if(authToken) {
+        if (authToken) {
             HandleFetchUserData(authToken);
         }
 
@@ -51,7 +54,7 @@ export const AuthProvider = ({ children }) => {
             return console.error("Erro ao salvar token: token não fornecido");
         }
 
-        localStorage.setItem("authToken", token);
+        await localStorage.setItem("authToken", token);
         console.log("Token: ", token);
         setAuthToken(token);
     };

@@ -35,7 +35,13 @@ function Payment(props) {
 
     setPaymentLoading(true);
 
-    const response = await PurchaseItems(items, identityData, authToken);
+    const identityDataToOrder = {
+      cpf: identityData.cpf,
+      telefone: identityData.telefone,
+      cep_number: identityData.cep_location.cep_number
+    }
+
+    const response = await PurchaseItems(items, identityDataToOrder, authToken);
 
     if (response && response.success) {
       const sessionId = response.data.id;
@@ -123,7 +129,7 @@ function Payment(props) {
         <div className="paymentSummary_finish">
           <button onClick={() => Purchase(props.group_data, identificationData)}>
             {
-              paymentLoading ? <Lottie animationData={LoadingData} loop={true} style={{ height: '100%' }} />
+              paymentLoading ? <Lottie animationData={LoadingData} loop={true} style={{ height: '85%' }} />
               :
               <span>
                 Finalizar Compra

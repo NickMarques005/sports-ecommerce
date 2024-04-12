@@ -6,24 +6,22 @@
     padding: 2vh;
 }
 
-.error_messages_div{
-    margin-block: 4vh; 
+.error_messages_div {
+    margin-block: 4vh;
     min-height: 25px;
-    padding: 10px; 
+    padding: 10px;
     border-radius: 5px;
-    color: white; 
-    font-weight: bold; 
-    background: linear-gradient(135deg, #ff416c, #ff4b2b); 
-    text-align: center; 
-    width: 100%; 
-    max-width: 400px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
 }
 
-.error_messages_div p{
-
-}
+.error_messages_div p {}
 
 .identification_personalData_div {
     border: 1px solid #c5c7cb;
@@ -101,9 +99,9 @@
     outline: none;
 }
 
-.cep_content_div_main{
+.cep_content_div_main {
     display: flex;
-    flex-direction:  column;
+    flex-direction: column;
     width: 100%;
     height: auto;
     justify-content: center;
@@ -111,7 +109,7 @@
     margin-block: 10vh;
 }
 
-.cep_data_title_div{
+.cep_data_title_div {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -120,34 +118,31 @@
     padding: 10px;
 }
 
-.cep_data_title_div span{
+.cep_data_title_div span {
     font-size: 18px;
     font-weight: 600;
     color: rgb(77, 46, 134);
 }
 
-.cep_location_div{
+.cep_location_div {
     width: 100%;
-    height: 60px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    
 }
 
-.cep_location_div span{
-    font-size: 15px;
+.cep_location_div span {
+    font-size: 2.6vh;
     text-transform: uppercase;
     white-space: nowrap;
     user-select: text;
     color: #dfebf7;
 }
 
-.template_bairro_div{
+.template_bairro_div {
     width: 40%;
-    height: 4vh;
-    max-height: 60px;
+    min-height: 8vh;
     background-color: azure;
     display: flex;
     justify-content: flex-start;
@@ -158,11 +153,12 @@
     border: 1px solid #8f96f9;
     background-color: #291574;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.template_localidade_div{
+.template_localidade_div {
     width: 30%;
-    height: 4vh;
+    min-height: 8vh;
     max-height: 60px;
     background-color: azure;
     display: flex;
@@ -174,12 +170,12 @@
     border: 1px solid #8f96f9;
     background-color: #291574;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.template_uf_div{
+.template_uf_div {
     width: 10%;
-    height: 4vh;
-    max-height: 60px;
+    min-height: 8vh;
     background-color: azure;
     display: flex;
     justify-content: flex-start;
@@ -190,28 +186,28 @@
     border: 1px solid #8f96f9;
     background-color: #291574;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.cep_address_div{
+.cep_address_div {
     width: 100%;
-    height: 60px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 }
 
-.cep_address_div span{
-    font-size: 15px;
+.cep_address_div span {
+    font-size: 2.6vh;
     text-transform: uppercase;
     white-space: nowrap;
     user-select: text;
     color: #dfebf7;
 }
 
-.address_div{
+.address_div {
     width: 70%;
-    height: 4vh;
+    min-height: 8vh;
     max-height: 60px;
     background-color: azure;
     display: flex;
@@ -223,15 +219,15 @@
     border: 1px solid #8f96f9;
     background-color: #291574;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.numberaddress_div{
+.numberaddress_div {
     width: 15%;
-    height: 4vh;
-    max-height: 60px;
+    min-height: 8vh;
     background-color: azure;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     padding: 10px;
     overflow: hidden;
@@ -239,19 +235,20 @@
     border: 1px solid #8f96f9;
     background-color: #291574;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.numberaddress_div input{
-    height: 20px;
-    width:  80%;
+.numberaddress_div input {
+    height: 100%;
+    width: 80%;
     background: transparent;
-    border:none;
+    border: none;
     outline: none;
-    font-size: 14px;
+    font-size: 2.6vh;
     color: #dfebf7;
 }
 
-.numberaddress_div input::placeholder{
+.numberaddress_div input::placeholder {
     color: #b3bfcb;
 }
 
@@ -280,4 +277,71 @@
     opacity: 0.5;
     background-color: rgb(40, 75, 44)26b;
     cursor: not-allowed;
+}
+
+@media (max-width: 950px) {
+    .identification_personalData_template_div {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .identification_personalData_info{
+        width: 100%;
+    }
+
+    .identification_personalData_name span{
+        font-size: 2.5vh;
+    }
+
+    .identification_personalData_input input{
+        font-size: 2.5vh;
+        padding: 5px;
+    }
+
+    .identification_personalData_next button {
+        width: 100%;
+        min-height: 10vh;
+        font-size: 3vh;
+    }
+
+    .identification_personalData_div {
+        background-color: transparent;
+        width: 100%;
+    }
+
+    .cep_content_div_main{
+        margin-block: 2vh;
+    }
+
+    .cep_data_title_div span{
+        font-size: 3vh;
+    }
+    
+    .address_div span,
+    .numberaddress_div input{
+        font-size: 2.5vh;
+    }
+
+    .numberaddress_div input{
+        width: 100%;
+        height: 100%;
+    }
+
+    .cep_location_div,
+    .cep_address_div,
+    .numberaddress_div{
+        height: auto;
+        flex-direction: column;
+    }
+
+    .cep_location_div div,
+    .cep_address_div div,
+    .numberaddress_div{
+        width: 100%;
+        margin-inline: 0px;
+    }
+
+    .cep_location_div span{
+        font-size: 2.8vh;
+    }
 }

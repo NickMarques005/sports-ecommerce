@@ -18,26 +18,50 @@ function MainPage() {
 
     const [mainProductData, setMainProductData] = useState([]);
     const { loading, setLoading } = useLoading();
+    const [retryCount, setRetryCount] = useState(0);
 
     useEffect(() => {
         const fetchProductsData = async () => {
-
-            const response = await GetProducts();
-            if (response.success) {
-                const { data, message } = response;
-                console.log(data);
-                const productsArray = Object.values(data.products);
-                setMainProductData(productsArray);
-                setLoading(false);
+            try {
+                const response = await GetProducts();
+                if (response && response.success) {
+                    const { data, message } = response;
+                    console.log(data);
+                    const productsArray = Object.values(data.products);
+                    setMainProductData(productsArray);
+                    setLoading(false);
+                    return true;
+                }
+                else {
+                    console.error("Falha ao buscar produtos: Problema de conexão com o servidor.");
+                    setLoading(true);
+                    return false
+                }
             }
-            else {
-                console.log("No data found");
+            catch (err) {
                 setLoading(true);
+                return false
             }
         };
 
-        fetchProductsData();
-    }, []);
+        const getMainProducts = async () => {
+            const fetched = await fetchProductsData();
+            
+            if(!fetched && retryCount < 5)
+                {
+                    console.log("Retry Fetch Items");
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);  
+                    }, 5000);
+                }
+        }
+
+        getMainProducts();
+
+        return () => {
+            clearTimeout();
+        }
+    }, [retryCount]);
 
 
     const handleFilterData = (type_data) => {
