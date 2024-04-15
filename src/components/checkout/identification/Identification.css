@@ -21,8 +21,6 @@
     transition: all 0.3s ease-in-out;
 }
 
-.error_messages_div p {}
-
 .identification_personalData_div {
     border: 1px solid #c5c7cb;
     border-radius: 20px;
