@@ -9,7 +9,7 @@ import DropDownItem from '../../dropdown_menu/DropDownItem';
 import { useSearch } from '../../../contexts/SearchContext';
 import { useCart } from '../../../contexts/CartContext';
 import CartModal from '../CartModal';
-import CartPageFunc from '../../../utils/CheckoutHandling';
+import HandleLevelCheckoutPage from '../../../utils/CheckoutHandling';
 import { useDevice } from '../../../contexts/DeviceContext';
 import SearchBar from '../../search_bar/SearchBar';
 import SearchResults from '../../search_bar/SearchResults';
@@ -23,6 +23,7 @@ export default function Navbar() {
 
   let currentRoute = window.location.pathname;
   let navigate = useNavigate();
+  let currentPage = window.location.pathname;
 
   const handleLogout = () => {
     console.log("AUTHTOKEN REMOVE");
@@ -52,8 +53,6 @@ export default function Navbar() {
   const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
 
   const [optionsOn, setOptionsOn] = useState(true);
-  const [updatedAccountOptions, setUpdatedAccountOptions] = useState([]);
-
   const [inputChange, setInputChange] = useState('');
 
   const { searchQuery, setSearchQuery } = useSearch();
@@ -113,7 +112,6 @@ export default function Navbar() {
 
   const interactMenu = () => {
     setMenuOpen(!menuOpen);
-    //console.log("menu aberto: ", menuOpen);
   };
 
   useEffect(() => {
@@ -197,6 +195,13 @@ export default function Navbar() {
     setOpenSearchMobile(!openSearchMobile);
   }
 
+  const handleCartClick = () => {
+    if(isMobile)
+    {
+      HandleLevelCheckoutPage(navigate, "carrinho", currentPage);
+    }
+  }
+
   const handleMouseEnter = () => {
     setCartView(true);
   };
@@ -256,7 +261,7 @@ export default function Navbar() {
                     <button className="wishlist button">
                       <IoHeart className="icon_scale icon_general" />
                     </button>
-                    <button className={`payment ${currentRoute === "/compra/carrinho" ? "off" : ""} button `} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => CartPageFunc(navigate)}>
+                    <button className={`payment ${currentRoute === "/compra/carrinho" ? "off" : ""} button `} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => handleCartClick()}>
                       <IoCart className="icon_scale icon_general" />
                       {cartItems.length !== 0 ?
                         <div className="cart_length_div">
