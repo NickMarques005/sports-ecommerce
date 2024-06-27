@@ -23,7 +23,7 @@ Sports is an e-commerce application developed in React with the goal of improvin
 ### Step by Step
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/sports-ecommerce.git
+    git clone https://github.com/NickMarques005/sports-ecommerce.git
     ```
 2. Navigate to the project directory:
     ```bash
