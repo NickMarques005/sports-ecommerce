@@ -4,6 +4,7 @@
 Sports is an e-commerce application developed in React with the goal of improving my skills in state management and data manipulation. The application allows users to purchase products related to physical exercises and sports, search for products, add them to the cart, and make fictitious payments through the Stripe platform.
 
 ## Features
+- Authentication
 - Product search
 - Add products to the cart
 - Make fictitious payments using Stripe
